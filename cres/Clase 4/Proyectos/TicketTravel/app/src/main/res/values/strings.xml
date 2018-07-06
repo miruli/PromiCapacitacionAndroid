@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TicketTravel</string>
+    <string name="user_text">Usuario</string>
+    <string name="pass_text">Contraseña</string>
+    <string name="button_login_text">Login</string>
+</resources>
