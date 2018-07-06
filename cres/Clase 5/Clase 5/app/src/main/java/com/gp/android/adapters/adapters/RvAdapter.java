@@ -12,17 +12,35 @@ import com.gp.android.adapters.model.Ticket;
 
 public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
 {
-    protected static class TicketViewHolder extends RecyclerView.ViewHolder
+    private RvAdapterClickLister clickLister;
+
+    protected static class TicketViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
+        private RvAdapterClickLister clickLister;
+
         TextView tvTitle;
         TextView tvSubtitle;
 
-        public TicketViewHolder(View itemView)
+        public TicketViewHolder(View itemView, RvAdapterClickLister listener)
         {
             super(itemView);
+
+            clickLister = listener;
+            itemView.setOnClickListener(this);
             tvTitle = itemView.findViewById(R.id.tv_ticket_rv_title);
             tvSubtitle = itemView.findViewById(R.id.tv_ticket_rv_subtitle);
         }
+
+        @Override
+        public void onClick(View v)
+        {
+            clickLister.onItemClick(v, getLayoutPosition());
+        }
+    }
+
+    public RvAdapter(RvAdapterClickLister listener)
+    {
+        clickLister = listener;
     }
 
     @NonNull
@@ -30,7 +48,7 @@ public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
     public TicketViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_rv_item, parent, false);
-        return new TicketViewHolder(v);
+        return new TicketViewHolder(v, clickLister);
     }
 
     @Override
