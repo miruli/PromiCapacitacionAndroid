@@ -12,15 +12,17 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        User a = new User();
-        a.setUserName("mobachi");
-        a.setPassword("lalala");
-        UserSerializer b = new UserSerializer();
-        b.save(this, a);
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        UserSerializer serializer = new UserSerializer();
+        User user = serializer.load(this);
+        if (user != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

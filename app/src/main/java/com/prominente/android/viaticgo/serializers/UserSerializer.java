@@ -11,7 +11,7 @@ public class UserSerializer extends ObjectSerializer {
         super.save(context, SerializerKeys.USER, user);
     }
 
-    public User load(Context context, String fileName) {
-        return (User)super.load(context, fileName);
+    public User load(Context context) {
+        return (User)super.load(context, SerializerKeys.USER);
     }
 }

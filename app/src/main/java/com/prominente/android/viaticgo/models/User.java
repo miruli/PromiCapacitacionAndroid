@@ -1,6 +1,8 @@
 package com.prominente.android.viaticgo.models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
     private String userName;
     private String password;
 
