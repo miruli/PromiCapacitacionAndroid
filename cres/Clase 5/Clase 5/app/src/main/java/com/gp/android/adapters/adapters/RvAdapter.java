@@ -5,12 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gp.android.adapters.R;
+import com.gp.android.adapters.model.Sponsor;
 import com.gp.android.adapters.model.Ticket;
 
-public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
+public class RvAdapter extends ArrayRvAdapter<Sponsor,RvAdapter.TicketViewHolder>
 {
     private RvAdapterClickLister clickLister;
 
@@ -19,7 +22,7 @@ public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
         private RvAdapterClickLister clickLister;
 
         TextView tvTitle;
-        TextView tvSubtitle;
+        ImageView tvSubtitle;
 
         public TicketViewHolder(View itemView, RvAdapterClickLister listener)
         {
@@ -28,7 +31,7 @@ public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
             clickLister = listener;
             itemView.setOnClickListener(this);
             tvTitle = itemView.findViewById(R.id.tv_ticket_rv_title);
-            tvSubtitle = itemView.findViewById(R.id.tv_ticket_rv_subtitle);
+            tvSubtitle = itemView.findViewById(R.id.iv_ticket_rv_image);
         }
 
         @Override
@@ -54,8 +57,9 @@ public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
     @Override
     public void onBindViewHolder(@NonNull TicketViewHolder holder, int position)
     {
-        Ticket t = getItems().get(position);
-        holder.tvTitle.setText(t.getDescription());
-        holder.tvSubtitle.setText(String.valueOf(t.getAmount()));
+        Sponsor t = getItems().get(position);
+        holder.tvTitle.setText(t.getName());
+        Glide.with(holder.tvSubtitle.getContext()).load(t.getUrlLogo()).into(holder.tvSubtitle);
+        //holder.tvSubtitle.setText(String.valueOf(t.getAmount()));
     }
 }
