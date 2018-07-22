@@ -12,7 +12,7 @@ import java.io.StreamCorruptedException;
 
 public class ObjectSerializer
 {
-    protected void save(Context context, String fileName, Object object)
+    public static void save(Context context, String fileName, Object object)
     {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
@@ -45,7 +45,7 @@ public class ObjectSerializer
         }
     }
 
-    protected Object load(Context context, String fileName)
+    public static Object load(Context context, String fileName)
     {
         FileInputStream fis = null;
         ObjectInputStream ois = null;

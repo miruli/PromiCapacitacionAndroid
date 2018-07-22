@@ -8,21 +8,27 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
+import com.prominente.android.viaticgo.adapters.IExpensesRecyclerViewAdapterClickListener;
+import com.prominente.android.viaticgo.adapters.ExpensesRecyclerViewAdapter;
+import com.prominente.android.viaticgo.models.Expense;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private ExpensesRecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView rvTickets = findViewById(R.id.rv_tickets);
-        rvTickets.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RvAdapter(new RvAdapterClickLister() {
+        RecyclerView rvExpenses = findViewById(R.id.rv_expenses);
+        rvExpenses.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ExpensesRecyclerViewAdapter(new IExpensesRecyclerViewAdapterClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 Toast.makeText(MainActivity.this, "Position "+position, Toast.LENGTH_SHORT).show();
-                Ticket t = adapter.getItems().get(position);
+                Expense t = adapter.getItems().get(position);
             }
 
             @Override
@@ -30,7 +36,21 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        rvTickets.setAdapter(adapter);
+        rvExpenses.setAdapter(adapter);
         adapter.addAll(getItems());
+    }
+
+    private ArrayList<Expense> getItems(){
+        ArrayList<Expense> expensesArrayList = new ArrayList<>();
+        expensesArrayList.add(new Expense("description 1", 1));
+        expensesArrayList.add(new Expense("description 2", 2));
+        expensesArrayList.add(new Expense("description 3", 3));
+        expensesArrayList.add(new Expense("description 4", 4));
+        expensesArrayList.add(new Expense("description 5", 5));
+        expensesArrayList.add(new Expense("description 6", 6));
+        expensesArrayList.add(new Expense("description 7", 7));
+        expensesArrayList.add(new Expense("description 8", 8));
+        expensesArrayList.add(new Expense("description 9", 9));
+        return expensesArrayList;
     }
 }

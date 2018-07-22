@@ -8,20 +8,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.prominente.android.viaticgo.R;
-import com.prominente.android.viaticgo.models.Ticket;
+import com.prominente.android.viaticgo.models.Expense;
 
-public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
+public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense,ExpensesRecyclerViewAdapter.ExpenseViewHolder>
 {
-    private RvAdapterClickLister clickLister;
+    private IExpensesRecyclerViewAdapterClickListener clickLister;
 
-    protected static class TicketViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    protected static class ExpenseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        private RvAdapterClickLister clickLister;
+        private IExpensesRecyclerViewAdapterClickListener clickLister;
 
         TextView tvTitle;
         TextView tvSubtitle;
 
-        public TicketViewHolder(View itemView, RvAdapterClickLister listener)
+        public ExpenseViewHolder(View itemView, IExpensesRecyclerViewAdapterClickListener listener)
         {
             super(itemView);
 
@@ -38,23 +38,23 @@ public class RvAdapter extends ArrayRvAdapter<Ticket,RvAdapter.TicketViewHolder>
         }
     }
 
-    public RvAdapter(RvAdapterClickLister listener)
+    public ExpensesRecyclerViewAdapter(IExpensesRecyclerViewAdapterClickListener listener)
     {
         clickLister = listener;
     }
 
     @NonNull
     @Override
-    public TicketViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public ExpenseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_rv_item, parent, false);
-        return new TicketViewHolder(v, clickLister);
+        return new ExpenseViewHolder(v, clickLister);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TicketViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull ExpenseViewHolder holder, int position)
     {
-        Ticket t = getItems().get(position);
+        Expense t = getItems().get(position);
         holder.tvTitle.setText(t.getDescription());
         holder.tvSubtitle.setText(String.valueOf(t.getAmount()));
     }
