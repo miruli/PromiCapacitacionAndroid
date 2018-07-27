@@ -3,13 +3,14 @@ package com.prominente.android.viaticgo.data;
 import android.content.Context;
 
 import com.prominente.android.viaticgo.constants.SerializerKeys;
+import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
 import com.prominente.android.viaticgo.models.LoggedUser;
 import com.prominente.android.viaticgo.serializers.ObjectSerializer;
 
-public final class LocalStorageRepository {
+public final class LocalStorageRepository implements ILoggedUserRepository {
     private static LocalStorageRepository instance;
 
-    public static LocalStorageRepository GetInstance()
+    public static LocalStorageRepository getInstance()
     {
         if (instance == null)
             instance = new LocalStorageRepository();
