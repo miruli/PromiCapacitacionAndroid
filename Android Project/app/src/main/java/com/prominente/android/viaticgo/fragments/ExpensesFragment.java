@@ -1,10 +1,12 @@
-package com.prominente.android.viaticgo.activities;
+package com.prominente.android.viaticgo.fragments;
 
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
@@ -14,20 +16,34 @@ import com.prominente.android.viaticgo.models.Expense;
 
 import java.util.ArrayList;
 
-public class OldMainActivity extends AppCompatActivity {
+public class ExpensesFragment extends Fragment {
     private ExpensesRecyclerViewAdapter adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_oldmain);
+    public ExpensesFragment(){
 
-        RecyclerView rvExpenses = findViewById(R.id.rv_expenses);
-        rvExpenses.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_oldmain, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+                RecyclerView rvExpenses = getActivity().findViewById(R.id.rv_expenses);
+        rvExpenses.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ExpensesRecyclerViewAdapter(new IExpensesRecyclerViewAdapterClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Toast.makeText(OldMainActivity.this, "Position "+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Position "+position, Toast.LENGTH_SHORT).show();
                 Expense t = adapter.getItems().get(position);
             }
 

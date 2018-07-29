@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             if (loginResponse != null) {
                 if (loginResponse.getCode() == 0) {
                     Toast.makeText(LoginActivity.this, "hola " + loginResponse.getData().getUserName(), Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivity.this, OldMainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
