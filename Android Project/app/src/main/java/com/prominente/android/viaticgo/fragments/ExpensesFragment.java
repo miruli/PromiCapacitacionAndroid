@@ -1,7 +1,9 @@
 package com.prominente.android.viaticgo.fragments;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 
 public class ExpensesFragment extends Fragment {
     private ExpensesRecyclerViewAdapter adapter;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public ExpensesFragment(){
 
@@ -29,31 +33,42 @@ public class ExpensesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_oldmain, container, false);
+        return inflater.inflate(R.layout.fragment_expenses, container, false);
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-                RecyclerView rvExpenses = getActivity().findViewById(R.id.rv_expenses);
-        rvExpenses.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ExpensesRecyclerViewAdapter(new IExpensesRecyclerViewAdapterClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                Toast.makeText(getContext(), "Position "+position, Toast.LENGTH_SHORT).show();
-                Expense t = adapter.getItems().get(position);
-            }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRecyclerView = view.findViewById(R.id.rv_expenses);
 
-            @Override
-            public void onItemLongClick(View v, int position) {
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-            }
-        });
-        rvExpenses.setAdapter(adapter);
+        // specify an adapter (see also next example)
+        adapter = new ExpensesRecyclerViewAdapter(getContext());
+
+
+        mRecyclerView.setAdapter(adapter);
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+//        adapter.setClickLister(new IExpensesRecyclerViewAdapterClickListener() {
+//            @Override
+//            public void onItemClick(View v, int position) {
+//                Toast.makeText(getContext(), "Position "+position, Toast.LENGTH_SHORT).show();
+//                //Expense t = adapter.getItems().get(position);
+//            }
+//
+//            @Override
+//            public void onItemLongClick(View v, int position) {
+//
+//            }
+//        });
         adapter.addAll(getItems());
+
     }
 
     private ArrayList<Expense> getItems(){
@@ -69,4 +84,5 @@ public class ExpensesFragment extends Fragment {
         expensesArrayList.add(new Expense("description 9", 9));
         return expensesArrayList;
     }
+
 }

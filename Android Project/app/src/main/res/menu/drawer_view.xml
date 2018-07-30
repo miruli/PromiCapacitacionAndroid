@@ -2,20 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_expenses"
+            android:icon="@drawable/ic_library_books_black_24dp"
+            android:title="@string/nav_text_expenses" />
+        <item
+            android:id="@+id/nav_blank"
             android:icon="@drawable/ic_menu_camera"
-            android:title="opt 1" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="opt 2" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="opt 3" />
+            android:title="@string/nav_text_blank" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_swap_vert_black_24dp"
-            android:title="Cerrar sesión" />
+            android:title="@string/nav_text_logout" />
     </group>
 </menu>

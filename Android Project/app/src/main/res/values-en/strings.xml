@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ViaticGo</string>
+    <string name="title_activity_main">ViaticGo</string>
+
+    <string name="user_name_hint">User</string>
+    <string name="password_hint">Password</string>
+    <string name="button_login">Login</string>
+
+    <string name="nav_text_expenses">Expenses</string>
+    <string name="nav_text_blank">Blank</string>
+    <string name="nav_text_logout">Logout</string>
+
+    <string name="description_hint">Description</string>
+    <string name="amount_hint">Amount</string>
+    <string name="date_hint">Date</string>
+    <string name="type_hint">Type</string>
+    <string name="currency_hint">Currency</string>
+    <string name="service_line_hint">Service line</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

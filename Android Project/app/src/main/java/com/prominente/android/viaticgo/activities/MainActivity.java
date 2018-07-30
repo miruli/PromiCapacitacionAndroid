@@ -2,8 +2,10 @@ package com.prominente.android.viaticgo.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,12 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.data.LocalStorageRepository;
 import com.prominente.android.viaticgo.fragments.BlankFragment;
+import com.prominente.android.viaticgo.fragments.ExpensesFragment;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
 import com.prominente.android.viaticgo.models.LoggedUser;
 
@@ -47,11 +50,27 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
             finish();
         }
 
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
+                startActivityForResult(intent, 0);//revisar el requets code
+            }
+        });
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         TextView navHeaderTitleTextView = navigationView.getHeaderView(0).findViewById(R.id.nav_header_title);
         if (navHeaderTitleTextView != null) {
             navHeaderTitleTextView.setText(loggedUser.getUserName());
         }
+
+        ExpensesFragment newFragment = new ExpensesFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.content_frame, newFragment);
+        transaction.commit();
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -64,27 +83,29 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
 
                         // Add code here to update the UI based on the item selected
                         // For example, swap UI fragments here
+                        FragmentTransaction transaction;
+                        Fragment newFragment;
 
                         switch (menuItem.getItemId()) {
-                            case R.id.nav_camera:
-                                Toast.makeText(MainActivity.this, "nav camera", Toast.LENGTH_SHORT).show();
+                            case R.id.nav_expenses:
+                                newFragment = new ExpensesFragment();
+                                transaction = getSupportFragmentManager().beginTransaction();
+                                transaction.replace(R.id.content_frame, newFragment);
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                                break;
+                            case R.id.nav_blank:
                                 // Create new fragment and transaction
-                                BlankFragment newFragment = BlankFragment.newInstance("tuuuu", "mami");
-                                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                newFragment = BlankFragment.newInstance("", "");
+                                transaction = getSupportFragmentManager().beginTransaction();
 
                                 // Replace whatever is in the fragment_container view with this fragment,
                                 // and add the transaction to the back stack
-                                transaction.replace(R.id.content_container, newFragment);
+                                transaction.replace(R.id.content_frame, newFragment);
                                 transaction.addToBackStack(null);
 
                                 // Commit the transaction
                                 transaction.commit();
-                                break;
-                            case R.id.nav_gallery:
-                                Toast.makeText(MainActivity.this, "nav gallery", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.nav_slideshow:
-                                Toast.makeText(MainActivity.this, "nav slideshow", Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.nav_logout:
                                 loggedUserRepository.saveLoggedUser(MainActivity.this, null);
