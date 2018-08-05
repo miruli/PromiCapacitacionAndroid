@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_menu_add" />
+        android:src="@drawable/ic_menu_file_plus" />
     <!--TODO: preguntar como se hace para tener un iconito blanco y uno negro dependiendo del tema-->
 
 </android.support.design.widget.CoordinatorLayout>
