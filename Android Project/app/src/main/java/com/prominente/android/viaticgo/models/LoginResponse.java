@@ -2,8 +2,6 @@ package com.prominente.android.viaticgo.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 public class LoginResponse {
     @SerializedName("Code")
     private int code;

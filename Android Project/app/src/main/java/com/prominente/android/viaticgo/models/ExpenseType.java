@@ -1,6 +1,16 @@
 package com.prominente.android.viaticgo.models;
 
-class ExpenseType {
+import java.io.Serializable;
+
+public class ExpenseType implements Serializable {
+    private int expenseTypeId;
+    private String description;
+
+    public ExpenseType(int expenseTypeId, String description) {
+        this.expenseTypeId = expenseTypeId;
+        this.description = description;
+    }
+
     public int getExpenseTypeId() {
         return expenseTypeId;
     }
@@ -17,6 +27,8 @@ class ExpenseType {
         this.description = description;
     }
 
-    private int expenseTypeId;
-    private String description;
+    @Override
+    public String toString() {
+        return getDescription();
+    }
 }

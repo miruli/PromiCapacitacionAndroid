@@ -1,16 +1,17 @@
 package com.prominente.android.viaticgo.models;
 
+import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
-public class Expense
-{
+public class Expense implements Serializable {
     private String description;
     private double amount;
     private Date date;
     private ExpenseType type;
     private Currency currency;
     private ServiceLine serviceLine;
+    private boolean selected;
 
     public Expense(String description, double amount) {
         this.description = description;
@@ -63,5 +64,13 @@ public class Expense
 
     public void setServiceLine(ServiceLine serviceLine) {
         this.serviceLine = serviceLine;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean getSelected() {
+        return  selected;
     }
 }

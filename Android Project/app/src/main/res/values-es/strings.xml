@@ -5,10 +5,11 @@
 
     <string name="user_name_hint">Usuario</string>
     <string name="password_hint">Contraseña</string>
-    <string name="button_login">Ingresar</string>
+    <string name="login_button">Ingresar</string>
 
     <string name="nav_text_expenses">Gastos</string>
     <string name="nav_text_blank">Blanco</string>
+    <string name="nav_text_settings">Configuración</string>
     <string name="nav_text_logout">Cerrar sesión</string>
 
     <string name="description_hint">Descripción</string>
@@ -17,8 +18,13 @@
     <string name="type_hint">Tipo</string>
     <string name="currency_hint">Moneda</string>
     <string name="service_line_hint">Linea de servicio</string>
+    <string name="add_expense_button">Agregar</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_delete">Eliminar</string>
+
+    <string name="new_expense">Nuevo gasto</string>
+
+    <string name="dark_theme">Tema oscuro</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hola blank fragment</string>
