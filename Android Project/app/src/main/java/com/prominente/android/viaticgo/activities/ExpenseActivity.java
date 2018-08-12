@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
@@ -108,7 +109,6 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
             }
         });
 
-        final AppCompatEditText txtServiceLine = findViewById(R.id.txtServiceLine);
         final AppCompatImageButton btnSelectServiceLine = findViewById(R.id.btnSelectServiceLine);
         btnSelectServiceLine.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,12 +118,9 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
                 items.add(new ServiceLine(1, "linea 2"));
                 items.add(new ServiceLine(2, "linea 3"));
                 serviceLinesAdapter = new ArrayIpAdapter<>(ExpenseActivity.this, android.R.layout.select_dialog_item, items);
-                showItemPickerDialog(v, serviceLinesAdapter, txtServiceLine);
+                showItemPickerDialog(v, serviceLinesAdapter, (AppCompatEditText)findViewById(R.id.txtServiceLine));
             }
         });
-
-
-
     }
 
     @Override

@@ -12,10 +12,8 @@ public class LoggedUser implements Serializable {
     @SerializedName("Token")
     private String token;
 
-    public LoggedUser(String userName, String password, String token) {
+    public LoggedUser(String userName) {
         this.userName = userName;
-        this.password = password;
-        this.token = token;
     }
 
     public String getUserName() {

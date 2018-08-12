@@ -5,13 +5,15 @@ import android.content.Context;
 import com.prominente.android.viaticgo.constants.SerializerKeys;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
+import com.prominente.android.viaticgo.interfaces.IServiceLineRepository;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.LoggedUser;
+import com.prominente.android.viaticgo.models.ServiceLine;
 import com.prominente.android.viaticgo.serializers.ObjectSerializer;
 
 import java.util.ArrayList;
 
-public final class LocalStorageRepository implements ILoggedUserRepository, IExpensesRepository {
+public final class LocalStorageRepository implements ILoggedUserRepository, IExpensesRepository, IServiceLineRepository {
     private static LocalStorageRepository instance;
 
     private LocalStorageRepository() {
@@ -39,6 +41,32 @@ public final class LocalStorageRepository implements ILoggedUserRepository, IExp
 
     public ArrayList<Expense> loadExpenses(Context context) {
         ArrayList<Expense> toReturn = (ArrayList<Expense>) ObjectSerializer.load(context, SerializerKeys.EXPENSES);
+        if (toReturn == null)
+            toReturn = new ArrayList<>();
+        return toReturn;
+    }
+
+    @Override
+    public void syncServiceLines(Context context, ArrayList<ServiceLine> serviceLines) {
+        ArrayList<ServiceLine> old = getAllExpenses(context);
+        for (ServiceLine newServiceLine : serviceLines) {
+            boolean updated = false;
+            for (ServiceLine oldServiceLine : old) {
+               if (newServiceLine.getServiceLineId() == oldServiceLine.getServiceLineId()) {
+                   //update with newServiceLine dat
+                   updated = true;
+                   break;
+               }
+            }
+            if (!updated){
+                //insert with newServiceLine
+            }
+        }
+    }
+
+    @Override
+    public ArrayList<ServiceLine> getAllExpenses(Context context) {
+        ArrayList<ServiceLine> toReturn = (ArrayList<ServiceLine>) ObjectSerializer.load(context, SerializerKeys.SERVICE_LINES);
         if (toReturn == null)
             toReturn = new ArrayList<>();
         return toReturn;

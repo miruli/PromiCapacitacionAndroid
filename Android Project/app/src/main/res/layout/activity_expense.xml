@@ -64,8 +64,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/date_hint"
-                    android:inputType="date"
-                    android:textIsSelectable="true"/>
+                    android:inputType="none"
+                    android:textIsSelectable="true"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -99,8 +100,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/type_hint"
                     android:inputType="none"
-                    android:textIsSelectable="true"
-                    android:focusable="false"/>
+                    android:textIsSelectable="true"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -134,8 +134,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/currency_hint"
                     android:inputType="none"
-                    android:textIsSelectable="true"
-                    android:focusable="false"/>
+                    android:textIsSelectable="true"/>
 
             </android.support.design.widget.TextInputLayout>
 
