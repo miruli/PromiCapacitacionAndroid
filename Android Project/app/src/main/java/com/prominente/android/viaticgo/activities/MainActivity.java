@@ -1,12 +1,22 @@
 package com.prominente.android.viaticgo.activities;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.drm.DrmStore;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -24,6 +34,7 @@ import com.prominente.android.viaticgo.fragments.ExpensesFragment;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.LoggedUser;
+import com.prominente.android.viaticgo.services.SyncService;
 
 public class MainActivity extends LightDarkAppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
     private DrawerLayout drawerLayout;
@@ -35,10 +46,12 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_menu);
+
         drawerLayout = findViewById(R.id.drawer_layout);
         loggedUserRepository = LocalStorageRepository.getInstance();
         fragmentToLoad = null;
@@ -104,6 +117,10 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
                         return true;
                     }
                 });
+
+        Intent msgIntent = new Intent(this, SyncService.class);
+        msgIntent.setAction(SyncService.ACTION_SYNC_SERVICE_LINES);
+        startService(msgIntent);
     }
 
     @Override

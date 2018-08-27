@@ -6,9 +6,9 @@
             android:icon="@drawable/ic_menu_file_multiple"
             android:title="@string/nav_text_expenses" />
         <item
-            android:id="@+id/nav_surrenders"
-            android:icon="@drawable/ic_menu_notebook"
-            android:title="Surrenders"/>
+            android:id="@+id/nav_trips"
+            android:icon="@drawable/ic_menu_notebook_multiple"
+            android:title="@string/nav_text_trips"/>
         <item
             android:id="@+id/nav_blank"
             android:icon="@drawable/ic_menu_camera"

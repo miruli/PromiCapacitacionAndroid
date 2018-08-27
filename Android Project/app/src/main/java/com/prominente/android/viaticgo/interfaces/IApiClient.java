@@ -1,12 +1,23 @@
 package com.prominente.android.viaticgo.interfaces;
 
 import com.prominente.android.viaticgo.models.LoginResponse;
+import com.prominente.android.viaticgo.models.ServiceLine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.HTTP;
-import retrofit2.http.Query;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
 
 public interface IApiClient {
-    @HTTP(method = "GET", path = "Login")
-    Call<LoginResponse> login(@Query("userName") String userName, @Query("password") String password);
+    @POST("login")
+    @FormUrlEncoded
+    Call<LoginResponse> login(@Field("username") String userName, @Field("password") String password, @Field("grant_type") String grantType);
+
+    @GET("LineaDeServicio/GetAll")
+    Call<ArrayList<ServiceLine>> getAllServiceLines();
 }

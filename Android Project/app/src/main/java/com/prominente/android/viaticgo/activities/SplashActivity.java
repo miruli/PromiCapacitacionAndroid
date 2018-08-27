@@ -16,7 +16,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         loggedUserRepository = LocalStorageRepository.getInstance();
         LoggedUser user = loggedUserRepository.loadLoggedUser(this);
-        if (user != null) {
+        if (user != null && user.getToken() != null && !user.getToken().isEmpty()) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();

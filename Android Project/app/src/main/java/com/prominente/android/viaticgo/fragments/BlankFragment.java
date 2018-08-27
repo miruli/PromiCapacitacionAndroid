@@ -1,14 +1,34 @@
 package com.prominente.android.viaticgo.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
+import com.prominente.android.viaticgo.activities.LoginActivity;
+import com.prominente.android.viaticgo.activities.MainActivity;
+import com.prominente.android.viaticgo.adapters.ExpensesRecyclerViewAdapter;
+import com.prominente.android.viaticgo.clients.ApiClient;
+import com.prominente.android.viaticgo.models.LoggedUser;
+import com.prominente.android.viaticgo.models.LoginResponse;
+import com.prominente.android.viaticgo.models.ServiceLine;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ServiceConfigurationError;
+
+import static com.prominente.android.viaticgo.clients.ApiClient.getInstance;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +43,7 @@ public class BlankFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,14 +87,24 @@ public class BlankFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_blank, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        AppCompatImageButton btntest = view.findViewById(R.id.btntest);
+        btntest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -106,4 +137,5 @@ public class BlankFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

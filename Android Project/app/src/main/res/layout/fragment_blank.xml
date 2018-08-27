@@ -35,11 +35,12 @@
     <ImageButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_menu_notebook" />
+        android:src="@drawable/ic_menu_notebook"/>
 
     <ImageButton
+        android:id="@+id/btntest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/vectorpaint2" />
+        android:src="@drawable/ic_menu_notebook_multiple" />
 
 </android.support.v7.widget.LinearLayoutCompat>

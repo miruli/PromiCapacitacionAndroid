@@ -9,6 +9,6 @@
             android:title="@string/action_delete"
             app:showAsAction="ifRoom"
             android:icon="@drawable/ic_menu_delete"
-            android:iconTint="?attr/editTextColor"/>
+            android:tint="?attr/actionMenuTextColor"/>
     </group>
 </menu>

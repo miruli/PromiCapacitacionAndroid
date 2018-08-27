@@ -2,35 +2,44 @@ package com.prominente.android.viaticgo.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
-    @SerializedName("Code")
-    private int code;
-    @SerializedName("Message")
-    private String message;
-    @SerializedName("Data")
-    private LoggedUser data;
+public class LoginResponse extends GenericResponse {
+    @SerializedName("access_token")
+    private String accessToken;
+    @SerializedName("token_type")
+    private String tokenType;
+    @SerializedName("expires_in")
+    private int expiresIn;
+    private String userName;
 
-    public int getCode() {
-        return code;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public String getMessage() {
-        return message;
+    public String getTokenType() {
+        return tokenType;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 
-    public LoggedUser getData() {
-        return data;
+    public int getExpiresIn() {
+        return expiresIn;
     }
 
-    public void setData(LoggedUser data) {
-        this.data = data;
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

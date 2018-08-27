@@ -8,6 +8,7 @@
     <string name="login_button">Ingresar</string>
 
     <string name="nav_text_expenses">Gastos</string>
+    <string name="nav_text_trips">Viajes</string>
     <string name="nav_text_blank">Blanco</string>
     <string name="nav_text_settings">Configuración</string>
     <string name="nav_text_logout">Cerrar sesión</string>
