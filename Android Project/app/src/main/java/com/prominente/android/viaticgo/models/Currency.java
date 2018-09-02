@@ -1,11 +1,23 @@
 package com.prominente.android.viaticgo.models;
 
+import com.google.gson.annotations.SerializedName;
+import com.orm.dsl.Table;
+import com.orm.dsl.Unique;
 import java.io.Serializable;
 
+@Table
 public class Currency implements Serializable{
+
+    @SerializedName("MonedaId")
+    @Unique
     private int currencyId;
     private char symbol;
+    @SerializedName("Descripcion")
     private String description;
+
+    public Currency() {
+
+    }
 
     public Currency(int currencyId, char symbol, String description) {
         this.currencyId = currencyId;

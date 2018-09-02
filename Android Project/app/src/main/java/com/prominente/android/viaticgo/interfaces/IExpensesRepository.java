@@ -7,7 +7,9 @@ import com.prominente.android.viaticgo.models.Expense;
 import java.util.ArrayList;
 
 public interface IExpensesRepository {
-    public void saveExpenses(Context context, ArrayList<Expense> expenses);
+    void saveExpense(Context context, Expense expense);
 
-    public ArrayList<Expense> loadExpenses(Context context);
+    void deleteExpenses(Context context, ArrayList<Expense> expenses);
+
+    ArrayList<Expense> loadExpenses(Context context);
 }

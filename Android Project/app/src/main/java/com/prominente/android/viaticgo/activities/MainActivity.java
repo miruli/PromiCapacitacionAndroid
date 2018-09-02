@@ -20,7 +20,9 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -39,11 +41,14 @@ import com.prominente.android.viaticgo.services.SyncService;
 public class MainActivity extends LightDarkAppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
     private DrawerLayout drawerLayout;
     private ILoggedUserRepository loggedUserRepository;
-    private Fragment fragmentToLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent msgIntent = new Intent(this, SyncService.class);
+        msgIntent.setAction(SyncService.ACTION_SYNC_ALL);
+        startService(msgIntent);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -54,22 +59,13 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
 
         drawerLayout = findViewById(R.id.drawer_layout);
         loggedUserRepository = LocalStorageRepository.getInstance();
-        fragmentToLoad = null;
         LoggedUser loggedUser = loggedUserRepository.loadLoggedUser(this);
         if (loggedUser == null) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ExpenseActivity.class);
-                startActivityForResult(intent, RequestCodes.NEW_EXPENSE);
-            }
-        });
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_expenses);
         TextView navHeaderTitleTextView = navigationView.getHeaderView(0).findViewById(R.id.nav_header_title);
         if (navHeaderTitleTextView != null) {
@@ -78,6 +74,7 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
         ExpensesFragment newFragment = new ExpensesFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.content_frame, newFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -104,6 +101,7 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
                                 transaction.commit();
                                 break;
                             case R.id.nav_settings:
+                                drawerLayout.closeDrawers();
                                 Intent settingsIntent = new Intent(MainActivity.this, PreferencesActivity.class);
                                 startActivity(settingsIntent);
                                 break;
@@ -117,23 +115,18 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
                         return true;
                     }
                 });
-
-        Intent msgIntent = new Intent(this, SyncService.class);
-        msgIntent.setAction(SyncService.ACTION_SYNC_SERVICE_LINES);
-        startService(msgIntent);
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (fragmentToLoad != null) {
-            NavigationView navigationView = findViewById(R.id.nav_view);
+    protected void onResume() {
+        super.onResume();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+        if (activeFragment instanceof ExpensesFragment) {
             navigationView.setCheckedItem(R.id.nav_expenses);
-            FragmentTransaction transaction;
-            transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.content_frame, fragmentToLoad);
-            transaction.addToBackStack(null);
-            transaction.commit();
+        }
+        else if (activeFragment instanceof BlankFragment) {
+            navigationView.setCheckedItem(R.id.nav_blank);
         }
     }
 
@@ -156,14 +149,11 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
             Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (activeFragment instanceof ExpensesFragment) {
                 finish();
-            } else {
+            }
+            else {
                 NavigationView navigationView = findViewById(R.id.nav_view);
                 navigationView.setCheckedItem(R.id.nav_expenses);
-                FragmentTransaction transaction;
-                transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.content_frame, new ExpensesFragment());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                super.onBackPressed();
             }
         }
     }
@@ -172,7 +162,7 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
         //TODO: preguntarle a Alfredo si aca seria conveniente empezar por el codigo de resultado (mensaje de error generico) o por el codigo de request (mensaje de error especifico)
         switch (requestCode) {
             case RequestCodes.NEW_EXPENSE:
-                if (resultCode == RESULT_OK) {
+                /*if (resultCode == RESULT_OK) {
                     Expense expense = (Expense) data.getSerializableExtra(ExtraKeys.EXPENSE);
                     Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (activeFragment instanceof ExpensesFragment) {
@@ -181,7 +171,7 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
                     else {
                         fragmentToLoad = new ExpensesFragment();
                     }
-                }
+                }*/
                 break;
         }
     }

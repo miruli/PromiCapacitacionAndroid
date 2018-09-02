@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.print.PrinterId;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
@@ -22,9 +23,13 @@ import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.adapters.ArrayIpAdapter;
 import com.prominente.android.viaticgo.constants.ExtraKeys;
 import com.prominente.android.viaticgo.data.LocalStorageRepository;
+import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.fragments.DatePickerFragment;
 import com.prominente.android.viaticgo.fragments.ItemPickerFragment;
+import com.prominente.android.viaticgo.interfaces.ICurrencyRepository;
+import com.prominente.android.viaticgo.interfaces.IExpenseTypeRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
+import com.prominente.android.viaticgo.interfaces.IServiceLineRepository;
 import com.prominente.android.viaticgo.models.Currency;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.ExpenseType;
@@ -44,6 +49,9 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     private ArrayIpAdapter<ExpenseType> typesAdapter;
     private ArrayIpAdapter<Currency> currenciesAdapter;
     private ArrayIpAdapter<ServiceLine> serviceLinesAdapter;
+    private IServiceLineRepository serviceLineRepository;
+    private ICurrencyRepository currencyRepository;
+    private IExpenseTypeRepository expenseTypeRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +64,10 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_arrow_back);
 
         saveExpenseTask = new SaveExpenseTask(findViewById(R.id.appBarMain));
-        expensesRepository = LocalStorageRepository.getInstance();
+        expensesRepository = SugarRepository.getInstance();
+        serviceLineRepository = SugarRepository.getInstance();
+        currencyRepository = SugarRepository.getInstance();
+        expenseTypeRepository = SugarRepository.getInstance();
         txtDate = findViewById(R.id.txtDate);
         dateFormat = android.text.format.DateFormat.getDateFormat(this);
 
@@ -67,6 +78,9 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
                 AppCompatEditText txtDescription = findViewById(R.id.txtDescription);
                 AppCompatEditText txtAmount = findViewById(R.id.txtAmount);
                 Expense expense = new Expense(txtDescription.getText().toString(), Double.valueOf(txtAmount.getText().toString()));
+                expense.setType(typesAdapter.getSelectedItem());
+                expense.setCurrency(currenciesAdapter.getSelectedItem());
+                expense.setServiceLine(serviceLinesAdapter.getSelectedItem());
                 Intent intent = new Intent();
                 intent.putExtra(ExtraKeys.EXPENSE, expense);
                 setResult(RESULT_OK, intent);
@@ -87,11 +101,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         btnSelectType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<ExpenseType> items = new ArrayList<>();
-                items.add(new ExpenseType(0, "tipo uno"));
-                items.add(new ExpenseType(1, "tipo dos"));
-                items.add(new ExpenseType(2, "tipo tres"));
-                items.add(new ExpenseType(3, "tipo cuatro"));
+                ArrayList<ExpenseType> items = expenseTypeRepository.getAllExpenseTypes(ExpenseActivity.this);
                 typesAdapter = new ArrayIpAdapter<>(ExpenseActivity.this, android.R.layout.select_dialog_item, items);
                 showItemPickerDialog(v, typesAdapter, (AppCompatEditText)findViewById(R.id.txtType));
             }
@@ -101,9 +111,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         btnSelectCurrency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Currency> items = new ArrayList<>();
-                items.add(new Currency(0, '$', "AR$"));
-                items.add(new Currency(1, '$', "US$"));
+                ArrayList<Currency> items = currencyRepository.getAllCurrencies(ExpenseActivity.this);
                 currenciesAdapter = new ArrayIpAdapter<>(ExpenseActivity.this, android.R.layout.select_dialog_item, items);
                 showItemPickerDialog(v, currenciesAdapter, (AppCompatEditText)findViewById(R.id.txtCurrency));
             }
@@ -113,10 +121,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         btnSelectServiceLine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<ServiceLine> items = new ArrayList<>();
-                items.add(new ServiceLine(0, "linea 1"));
-                items.add(new ServiceLine(1, "linea 2"));
-                items.add(new ServiceLine(2, "linea 3"));
+                ArrayList<ServiceLine> items = serviceLineRepository.getAllServiceLines(ExpenseActivity.this);
                 serviceLinesAdapter = new ArrayIpAdapter<>(ExpenseActivity.this, android.R.layout.select_dialog_item, items);
                 showItemPickerDialog(v, serviceLinesAdapter, (AppCompatEditText)findViewById(R.id.txtServiceLine));
             }
@@ -172,11 +177,9 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
 
         @Override
         protected Void doInBackground(Expense... newExpenses) {
-            ArrayList<Expense> expenses = expensesRepository.loadExpenses(ExpenseActivity.this);
-            for (Expense newExpense : newExpenses) {
-                expenses.add(newExpense);
+            for (Expense expense:newExpenses) {
+                expensesRepository.saveExpense(ExpenseActivity.this, expense);
             }
-            expensesRepository.saveExpenses(ExpenseActivity.this, expenses);
             //TODO: preguntarle a Alfredo si esta bien devolver null en este caso
             return null;
         }

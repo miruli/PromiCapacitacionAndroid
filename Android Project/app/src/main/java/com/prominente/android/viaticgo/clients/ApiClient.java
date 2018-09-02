@@ -1,20 +1,17 @@
 package com.prominente.android.viaticgo.clients;
 
-import android.app.Application;
 import android.content.Context;
-
 import com.prominente.android.viaticgo.data.LocalStorageRepository;
 import com.prominente.android.viaticgo.interfaces.IApiClient;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
+import com.prominente.android.viaticgo.models.Currency;
+import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.LoggedUser;
 import com.prominente.android.viaticgo.models.LoginResponse;
 import com.prominente.android.viaticgo.models.ServiceLine;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.List;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -69,10 +66,19 @@ public final class ApiClient {
                 .build();
     }
 
+    private Retrofit buildRetrofitNoToken() {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        return new Retrofit.Builder()
+                .client(client)
+                .baseUrl("http://demo.pectra.com/rendiciones/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
     public LoginResponse login(String userName, String password) {
         LoginResponse loginResponse;
         try {
-            Retrofit retrofit = buildRetrofit();
+            Retrofit retrofit = buildRetrofitNoToken();
             IApiClient client = retrofit.create(IApiClient.class);
             Call<LoginResponse> loginCall = client.login(userName, password, "password");
             retrofit2.Response<LoginResponse> response = loginCall.execute();
@@ -91,12 +97,40 @@ public final class ApiClient {
         return loginResponse;
     }
 
-    public ArrayList<ServiceLine> getall() {
+    public ArrayList<ServiceLine> fetchAllServiceLines() {
         try {
             Retrofit retrofit = buildRetrofit();
             IApiClient client = retrofit.create(IApiClient.class);
-            Call<ArrayList<ServiceLine>> getallcall = client.getAllServiceLines();
-            return getallcall.execute().body();
+            Call<ArrayList<ServiceLine>> getAllServiceLinesCall = client.getAllServiceLines();
+            return getAllServiceLinesCall.execute().body();
+        } catch (Exception e) {
+/*            loginResponse = new LoginResponse();
+            loginResponse.setError(e.getClass().getName());
+            loginResponse.setErrorDescription(e.getMessage());*/
+        }
+        return null;
+    }
+
+    public ArrayList<Currency> fetchAllCurrencies() {
+        try {
+            Retrofit retrofit = buildRetrofit();
+            IApiClient client = retrofit.create(IApiClient.class);
+            Call<ArrayList<Currency>> getAllCurrenciesCall = client.getAllCurrencies();
+            return getAllCurrenciesCall.execute().body();
+        } catch (Exception e) {
+/*            loginResponse = new LoginResponse();
+            loginResponse.setError(e.getClass().getName());
+            loginResponse.setErrorDescription(e.getMessage());*/
+        }
+        return null;
+    }
+
+    public ArrayList<ExpenseType> fetchAllExpenseTypes() {
+        try {
+            Retrofit retrofit = buildRetrofit();
+            IApiClient client = retrofit.create(IApiClient.class);
+            Call<ArrayList<ExpenseType>> getAllCurrenciesCall = client.getAllExpenseTypes();
+            return getAllCurrenciesCall.execute().body();
         } catch (Exception e) {
 /*            loginResponse = new LoginResponse();
             loginResponse.setError(e.getClass().getName());

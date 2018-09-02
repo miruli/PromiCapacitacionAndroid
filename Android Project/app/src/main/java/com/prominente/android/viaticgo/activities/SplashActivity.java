@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.prominente.android.viaticgo.data.LocalStorageRepository;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
 import com.prominente.android.viaticgo.models.LoggedUser;
+import com.prominente.android.viaticgo.services.SyncService;
 
 public class SplashActivity extends AppCompatActivity {
     private ILoggedUserRepository loggedUserRepository;
@@ -14,6 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         loggedUserRepository = LocalStorageRepository.getInstance();
         LoggedUser user = loggedUserRepository.loadLoggedUser(this);
         if (user != null && user.getToken() != null && !user.getToken().isEmpty()) {

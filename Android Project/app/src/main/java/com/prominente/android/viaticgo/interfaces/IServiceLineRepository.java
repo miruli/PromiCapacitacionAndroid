@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public interface IServiceLineRepository {
     void syncServiceLines(Context context, ArrayList<ServiceLine> serviceLines);
 
-    ArrayList<ServiceLine> getAllExpenses(Context context);
+    ArrayList<ServiceLine> getAllServiceLines(Context context);
 }

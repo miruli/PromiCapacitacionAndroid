@@ -1,9 +1,13 @@
 package com.prominente.android.viaticgo.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prominente.android.viaticgo.R;
+import com.prominente.android.viaticgo.activities.ExpenseActivity;
 import com.prominente.android.viaticgo.adapters.ExpensesRecyclerViewAdapter;
-import com.prominente.android.viaticgo.data.LocalStorageRepository;
+import com.prominente.android.viaticgo.constants.RequestCodes;
+import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
 import com.prominente.android.viaticgo.models.Expense;
 
@@ -28,7 +34,6 @@ public class ExpensesFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private IExpensesRepository expensesRepository;
     private LoadExpensesTask loadExpensesTask;
-    private DeleteExpenseTask deleteExpenseTask;
 
     public ExpensesFragment() {
 
@@ -38,8 +43,7 @@ public class ExpensesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        expensesRepository = LocalStorageRepository.getInstance();
-        runLoadTask();
+        expensesRepository = SugarRepository.getInstance();
     }
 
     @Override
@@ -54,9 +58,25 @@ public class ExpensesFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.rv_expenses);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        adapter = new ExpensesRecyclerViewAdapter(getActivity());
+        adapter = new ExpensesRecyclerViewAdapter((AppCompatActivity)getActivity());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ExpenseActivity.class);
+                startActivityForResult(intent, RequestCodes.NEW_EXPENSE);
+            }
+        });
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("tuvieja");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        runLoadTask();
     }
 
     @Override
@@ -64,38 +84,36 @@ public class ExpensesFragment extends Fragment {
         super.onStop();
         if (loadExpensesTask != null && (loadExpensesTask.getStatus().equals(AsyncTask.Status.RUNNING) || loadExpensesTask.getStatus().equals(AsyncTask.Status.PENDING)))
             loadExpensesTask.cancel(true);
-        if (deleteExpenseTask != null && (deleteExpenseTask.getStatus().equals(AsyncTask.Status.RUNNING) || deleteExpenseTask.getStatus().equals(AsyncTask.Status.PENDING)))
-            deleteExpenseTask.cancel(false);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main, menu);
+        //inflater.inflate(R.menu.fragment_expenses_menu, menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        boolean itemSelected = false;
+        /*boolean itemSelected = false;
         for (Expense e:adapter.getItems()) {
             if (e.getSelected()){
                 itemSelected = true;
                 break;
             }
         }
-        menu.setGroupVisible(R.id.menu_expense_group, itemSelected);
+        menu.setGroupVisible(R.id.menu_expense_group, itemSelected);*/
         super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        /*switch (item.getItemId()) {
             case R.id.action_delete:
                 deleteExpenseTask = new DeleteExpenseTask();
                 deleteExpenseTask.execute();
                 getActivity().invalidateOptionsMenu();
                 return true;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
@@ -128,33 +146,6 @@ public class ExpensesFragment extends Fragment {
                 adapter.clear();
                 adapter.addAll(expenses);
             }
-        }
-    }
-
-    private class DeleteExpenseTask extends AsyncTask<ArrayList<Expense>, Integer, Void>{
-        public DeleteExpenseTask() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(ArrayList<Expense>... arrayLists) {
-            ArrayList<Expense> newExpensesList = new ArrayList<>();
-            for (Expense expense:adapter.getItems()) {
-                if (!expense.getSelected()) {
-                    newExpensesList.add(expense);
-                }
-            }
-            expensesRepository.saveExpenses(getContext(), newExpensesList);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            runLoadTask();
         }
     }
 }

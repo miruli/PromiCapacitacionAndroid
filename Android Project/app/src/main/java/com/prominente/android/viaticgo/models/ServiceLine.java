@@ -1,14 +1,23 @@
 package com.prominente.android.viaticgo.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.orm.dsl.Table;
+import com.orm.dsl.Unique;
 
 import java.io.Serializable;
 
+@Table
 public class ServiceLine implements Serializable {
+
     @SerializedName("LineaDeServicioId")
+    @Unique
     private int serviceLineId;
     @SerializedName("Descripcion")
     private String description;
+
+    public ServiceLine() {
+
+    }
 
     public ServiceLine(int serviceLineId, String description) {
         this.serviceLineId = serviceLineId;

@@ -1,5 +1,7 @@
 package com.prominente.android.viaticgo.interfaces;
 
+import com.prominente.android.viaticgo.models.Currency;
+import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.LoginResponse;
 import com.prominente.android.viaticgo.models.ServiceLine;
 
@@ -20,4 +22,10 @@ public interface IApiClient {
 
     @GET("LineaDeServicio/GetAll")
     Call<ArrayList<ServiceLine>> getAllServiceLines();
+
+    @GET("Moneda/GetAll")
+    Call<ArrayList<Currency>> getAllCurrencies();
+
+    @GET("TipoDeTicket/GetAll")
+    Call<ArrayList<ExpenseType>> getAllExpenseTypes();
 }

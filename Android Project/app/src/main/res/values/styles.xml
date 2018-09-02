@@ -6,6 +6,7 @@
     <!-- Light application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
@@ -15,6 +16,7 @@
     <!-- Dark application theme. -->
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>

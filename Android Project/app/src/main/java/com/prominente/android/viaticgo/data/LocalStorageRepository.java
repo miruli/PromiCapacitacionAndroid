@@ -13,7 +13,7 @@ import com.prominente.android.viaticgo.serializers.ObjectSerializer;
 
 import java.util.ArrayList;
 
-public final class LocalStorageRepository implements ILoggedUserRepository, IExpensesRepository, IServiceLineRepository {
+public final class LocalStorageRepository implements ILoggedUserRepository {
     private static LocalStorageRepository instance;
 
     private LocalStorageRepository() {
@@ -33,42 +33,5 @@ public final class LocalStorageRepository implements ILoggedUserRepository, IExp
 
     public LoggedUser loadLoggedUser(Context context) {
         return (LoggedUser) ObjectSerializer.load(context, SerializerKeys.USER);
-    }
-
-    public void saveExpenses(Context context, ArrayList<Expense> expenses) {
-        ObjectSerializer.save(context, SerializerKeys.EXPENSES, expenses);
-    }
-
-    public ArrayList<Expense> loadExpenses(Context context) {
-        ArrayList<Expense> toReturn = (ArrayList<Expense>) ObjectSerializer.load(context, SerializerKeys.EXPENSES);
-        if (toReturn == null)
-            toReturn = new ArrayList<>();
-        return toReturn;
-    }
-
-    @Override
-    public void syncServiceLines(Context context, ArrayList<ServiceLine> serviceLines) {
-        ArrayList<ServiceLine> old = getAllExpenses(context);
-        for (ServiceLine newServiceLine : serviceLines) {
-            boolean updated = false;
-            for (ServiceLine oldServiceLine : old) {
-               if (newServiceLine.getServiceLineId() == oldServiceLine.getServiceLineId()) {
-                   //update with newServiceLine dat
-                   updated = true;
-                   break;
-               }
-            }
-            if (!updated){
-                //insert with newServiceLine
-            }
-        }
-    }
-
-    @Override
-    public ArrayList<ServiceLine> getAllExpenses(Context context) {
-        ArrayList<ServiceLine> toReturn = (ArrayList<ServiceLine>) ObjectSerializer.load(context, SerializerKeys.SERVICE_LINES);
-        if (toReturn == null)
-            toReturn = new ArrayList<>();
-        return toReturn;
     }
 }
