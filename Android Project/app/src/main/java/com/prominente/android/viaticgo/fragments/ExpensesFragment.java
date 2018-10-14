@@ -70,7 +70,7 @@ public class ExpensesFragment extends Fragment {
             }
         });
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle("tuvieja");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle_expense_fragment);
     }
 
     @Override

@@ -176,7 +176,10 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
 
         @Override
         protected Void doInBackground(ArrayList<Expense>... arrayLists) {
-            expensesRepository.deleteExpenses(activity, arrayLists[0]);
+            for(int i= 0; i<= arrayLists.length -1; i++)
+            {
+                expensesRepository.deleteExpenses(activity, arrayLists[i]);
+            }
             return null;
         }
 

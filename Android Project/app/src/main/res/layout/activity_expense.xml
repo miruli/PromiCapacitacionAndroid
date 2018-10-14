@@ -19,6 +19,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/scroll" android:layout_width="match_parent" android:layout_height="wrap_content">
+
     <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -29,7 +31,6 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-                
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/txtDescription"
@@ -41,7 +42,6 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-                
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/txtAmount"
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorTransparent"
-                android:src="@drawable/ic_control_drop_down"
+                android:src="@drawable/ic_control_drop_down_circle"
                 app:layout_constrainedHeight="true"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="@id/tilType"
@@ -177,7 +177,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorTransparent"
-                android:src="@drawable/ic_control_edit"
+                android:src="@drawable/ic_control_drop_down_circle"
                 app:layout_constrainedHeight="true"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="@id/tilServiceLine"
@@ -187,6 +187,46 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilImgTicket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/txtImgTicket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/image_ticket_hint"
+                    android:inputType="none"
+                    android:textIsSelectable="true"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/btnAddImageTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:src="@drawable/ic_menu_gallery"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="@id/tilImgTicket"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@id/tilImgTicket"
+                app:layout_constraintTop_toTopOf="@id/tilImgTicket" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivTicket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btnAddExpense"
             android:layout_width="match_parent"
@@ -195,5 +235,6 @@
 
     </android.support.v7.widget.LinearLayoutCompat>
 
+    </ScrollView>
 
 </android.support.v7.widget.LinearLayoutCompat>

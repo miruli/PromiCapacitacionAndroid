@@ -7,7 +7,7 @@
     <string name="password_hint">Contraseña</string>
     <string name="login_button">Ingresar</string>
 
-    <string name="nav_text_expenses">Gastos</string>
+    <string name="nav_text_expenses">Tickets</string>
     <string name="nav_text_trips">Viajes</string>
     <string name="nav_text_blank">Blanco</string>
     <string name="nav_text_settings">Configuración</string>
@@ -19,13 +19,19 @@
     <string name="type_hint">Tipo</string>
     <string name="currency_hint">Moneda</string>
     <string name="service_line_hint">Linea de servicio</string>
+    <string name="image_ticket_hint">Imagen del ticket</string>
     <string name="add_expense_button">Agregar</string>
 
     <string name="action_delete">Eliminar</string>
 
-    <string name="new_expense">Nuevo gasto</string>
+    <string name="new_expense">Nuevo ticket</string>
 
     <string name="dark_theme">Tema oscuro</string>
+
+    <string name="subtitle_expense_fragment">Tickets pendientes</string>
+    <string name="image_not_selected_expense_fragment">Debe seleccionar una imagen</string>
+
+    <string name="generic_error">Ocurrio un error</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hola blank fragment</string>

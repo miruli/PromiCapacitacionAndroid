@@ -7,7 +7,7 @@
     <string name="password_hint">Password</string>
     <string name="login_button">Log in</string>
 
-    <string name="nav_text_expenses">Expenses</string>
+    <string name="nav_text_expenses">Tickets</string>
     <string name="nav_text_trips">Trips</string>
     <string name="nav_text_blank">Blank</string>
     <string name="nav_text_settings">Settings</string>
@@ -19,14 +19,19 @@
     <string name="type_hint">Type</string>
     <string name="currency_hint">Currency</string>
     <string name="service_line_hint">Service line</string>
+    <string name="image_ticket_hint">Ticket image</string>
     <string name="add_expense_button">Add</string>
 
     <string name="action_delete">Delete</string>
 
-    <string name="new_expense">New expense</string>
+    <string name="new_expense">New ticket</string>
 
     <string name="dark_theme">Dark theme</string>
 
+    <string name="subtitle_expense_fragment">Pendings tickets</string>
+    <string name="image_not_selected_expense_fragment">You must select an image</string>
+
+    <string name="generic_error">An error occurred</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

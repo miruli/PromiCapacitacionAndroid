@@ -12,12 +12,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.Toast;
+import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.adapters.ArrayIpAdapter;
@@ -35,6 +40,8 @@ import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.ServiceLine;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,6 +59,8 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     private IServiceLineRepository serviceLineRepository;
     private ICurrencyRepository currencyRepository;
     private IExpenseTypeRepository expenseTypeRepository;
+    private AppCompatImageView ivTicket;
+    private static final int RESULT_LOAD_IMG = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +79,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         expenseTypeRepository = SugarRepository.getInstance();
         txtDate = findViewById(R.id.txtDate);
         dateFormat = android.text.format.DateFormat.getDateFormat(this);
+        ivTicket = findViewById(R.id.ivTicket);
 
         final AppCompatButton btnAddExpense = findViewById(R.id.btnAddExpense);
         btnAddExpense.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +136,19 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
                 showItemPickerDialog(v, serviceLinesAdapter, (AppCompatEditText)findViewById(R.id.txtServiceLine));
             }
         });
+
+        final AppCompatImageButton btnAddImageTicket = findViewById(R.id.btnAddImageTicket);
+        btnAddImageTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+
+            }
+        });
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -191,4 +213,28 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            try {
+                if(reqCode == RESULT_LOAD_IMG) {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    ivTicket.setImageBitmap(selectedImage);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, R.string.generic_error, Toast.LENGTH_LONG).show();
+            }
+
+        }else {
+            Toast.makeText(this, R.string.image_not_selected_expense_fragment,Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }
