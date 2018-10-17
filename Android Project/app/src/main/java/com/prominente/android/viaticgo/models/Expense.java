@@ -1,12 +1,16 @@
 package com.prominente.android.viaticgo.models;
 
 import com.orm.dsl.Table;
+import com.orm.dsl.Unique;
+
 import java.io.Serializable;
 import java.util.Date;
 
 @Table
 public class Expense implements Serializable {
 
+    @Unique
+    private Long expenseId;
     private String description;
     private double amount;
     private Date date;
@@ -25,6 +29,15 @@ public class Expense implements Serializable {
     public Expense(String description, double amount) {
         this.description = description;
         this.amount = amount;
+
+    }
+
+    public Long getExpenseId() {
+        return expenseId;
+    }
+
+    public void setExpenseId(Long expenseId) {
+        this.expenseId = expenseId;
     }
 
     public String getDescription() {

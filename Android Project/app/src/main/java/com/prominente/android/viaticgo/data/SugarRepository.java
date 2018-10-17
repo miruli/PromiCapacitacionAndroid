@@ -6,6 +6,7 @@ import android.view.textservice.SuggestionsInfo;
 import android.widget.SearchView;
 
 import com.orm.SugarRecord;
+import com.prominente.android.viaticgo.constants.ExtraKeys;
 import com.prominente.android.viaticgo.interfaces.ICurrencyRepository;
 import com.prominente.android.viaticgo.interfaces.IExpenseTypeRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
@@ -16,6 +17,7 @@ import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.ServiceLine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SugarRepository implements IServiceLineRepository, ICurrencyRepository, IExpenseTypeRepository, IExpensesRepository {
@@ -125,6 +127,24 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
     }
 
     @Override
+    public void updateExpense(Context context, Expense expense) {
+        //SugarRecord.deleteAll(Expense.class, "EXPENSE_ID = ?", Long.toString(expense.getExpenseId()));
+        //SugarRecord.save(expense);
+        List<Expense> expenses = SugarRecord.find(Expense.class, "EXPENSE_ID = ?", Long.toString(expense.getExpenseId()));
+        if(expenses.size() == 1) {
+            Expense expenseToUpdate = expenses.get(0);
+            expenseToUpdate.setDescription(expense.getDescription());
+            expenseToUpdate.setAmount(expense.getAmount());
+            expenseToUpdate.setCurrency(expense.getCurrency());
+            expenseToUpdate.setDate(expense.getDate());
+            expenseToUpdate.setSelected(expense.getSelected());
+            expenseToUpdate.setServiceLine(expense.getServiceLine());
+            expenseToUpdate.setType(expense.getType());
+            SugarRecord.save(expenseToUpdate);
+        }
+    }
+
+    @Override
     public void deleteExpenses(Context context, ArrayList<Expense> expenses) {
         for (Expense expense:expenses) {
             SugarRecord.delete(expense);
@@ -137,4 +157,5 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
         toReturn.addAll(SugarRecord.listAll(Expense.class));
         return toReturn;
     }
+
 }

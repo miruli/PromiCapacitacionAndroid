@@ -9,5 +9,12 @@
             app:showAsAction="ifRoom"
             android:icon="@drawable/ic_menu_delete"
             android:tint="?attr/actionMenuTextColor"/>
+
+        <item android:id="@+id/action_send_tickets"
+            android:orderInCategory="100"
+            android:title="@string/action_send_tickets"
+            app:showAsAction="ifRoom"
+            android:icon="@drawable/ic_menu_expenses"
+            android:tint="?attr/actionMenuTextColor"/>
     </group>
 </menu>

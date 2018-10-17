@@ -34,7 +34,6 @@ public class ExpensesFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private IExpensesRepository expensesRepository;
     private LoadExpensesTask loadExpensesTask;
-
     public ExpensesFragment() {
 
     }
@@ -58,7 +57,7 @@ public class ExpensesFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.rv_expenses);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        adapter = new ExpensesRecyclerViewAdapter((AppCompatActivity)getActivity());
+        adapter = new ExpensesRecyclerViewAdapter((AppCompatActivity) getActivity());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         FloatingActionButton fab = view.findViewById(R.id.fab);
@@ -70,7 +69,7 @@ public class ExpensesFragment extends Fragment {
             }
         });
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle_expense_fragment);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle_expense_fragment);
     }
 
     @Override
@@ -114,6 +113,7 @@ public class ExpensesFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
                 return true;
         }*/
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -148,4 +148,6 @@ public class ExpensesFragment extends Fragment {
             }
         }
     }
+
+
 }

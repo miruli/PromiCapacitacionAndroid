@@ -9,7 +9,10 @@ import java.util.ArrayList;
 public interface IExpensesRepository {
     void saveExpense(Context context, Expense expense);
 
+    void updateExpense(Context context, Expense expense);
+
     void deleteExpenses(Context context, ArrayList<Expense> expenses);
 
     ArrayList<Expense> loadExpenses(Context context);
+
 }

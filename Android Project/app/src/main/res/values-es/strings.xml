@@ -21,10 +21,13 @@
     <string name="service_line_hint">Linea de servicio</string>
     <string name="image_ticket_hint">Imagen del ticket</string>
     <string name="add_expense_button">Agregar</string>
+    <string name="save_expense_button">Guardar</string>
 
     <string name="action_delete">Eliminar</string>
+    <string name="action_send_tickets">Enviar tickets</string>
 
     <string name="new_expense">Nuevo ticket</string>
+    <string name="edit_expense">Edición ticket</string>
 
     <string name="dark_theme">Tema oscuro</string>
 

@@ -1,5 +1,7 @@
 package com.prominente.android.viaticgo.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.annotation.ColorInt;
@@ -14,11 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
+import com.prominente.android.viaticgo.activities.ExpenseActivity;
+import com.prominente.android.viaticgo.constants.RequestCodes;
+import com.prominente.android.viaticgo.constants.SerializerKeys;
 import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
 import com.prominente.android.viaticgo.models.Expense;
+import com.prominente.android.viaticgo.constants.ExtraKeys;
+import com.prominente.android.viaticgo.serializers.ObjectSerializer;
 
 import java.util.ArrayList;
 
@@ -59,7 +67,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (actionMode != null) {
+          /*      if (actionMode != null) {
                     ArrayList<Expense> expenses = getItems();
                     for (Expense e:expenses) {
                         if (e.getSelected()){
@@ -71,6 +79,15 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
                     actionMode.setTitle(Integer.toString(getSelectedItemsCount()));
                     actionMode.invalidate();
                 }
+            */
+
+                if (getSelectedItemsCount() == 0) {
+                    Intent intent = new Intent(activity, ExpenseActivity.class);
+                    intent.putExtra(ExtraKeys.EXPENSE, expense);
+                    intent.putExtra(ExtraKeys.MODE_EXPENSE_ACTIVITY,RequestCodes.EDIT_EXPENSE);
+                    activity.startActivity(intent);
+                }
+
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -120,6 +137,11 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
                                 deleteExpenseTask.execute(selectedExpenses);
                                 mode.finish();
                                 return true;
+
+                            case R.id.action_send_tickets:
+                                /*TODO: completar */
+                                Toast.makeText(activity , "lala", Toast.LENGTH_SHORT).show();
+                                return true;
                         }
                         return false;
                     }
@@ -137,7 +159,9 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
                 return true;
             }
         });
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -162,7 +186,10 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_ticket_rv_title);
             tvSubtitle = itemView.findViewById(R.id.tv_ticket_rv_subtitle);
+
         }
+
+
     }
 
     private class DeleteExpenseTask extends AsyncTask<ArrayList<Expense>, Integer, Void> {
