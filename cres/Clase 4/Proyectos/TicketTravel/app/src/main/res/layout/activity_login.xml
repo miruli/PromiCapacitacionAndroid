@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/backgroundlogin">
+
+        <EditText
+            android:id="@+id/login_userText"
+            android:layout_width="263dp"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="188dp"
+            android:background="@drawable/login_redondeado_edittext"
+            android:hint="@string/user_text"
+            android:textColor="@color/colorTextWhite"
+            android:paddingLeft="50dp"
+            android:textColorHint="@color/colorTextWhite"
+            android:textSize="25dp" />
+
+        <EditText
+            android:id="@+id/login_passText"
+            android:layout_width="263dp"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="122dp"
+            android:background="@drawable/login_redondeado_edittext"
+            android:hint="@string/pass_text"
+            android:textColor="@color/colorTextWhite"
+            android:paddingLeft="50dp"
+            android:inputType="textPassword"
+            android:textColorHint="@color/colorTextWhite"
+            android:textSize="25dp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="196dp"
+            android:layout_marginLeft="85dp"
+            android:background="@drawable/baseline_person_black_18dp"
+            android:backgroundTint="@color/colorTextWhite" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="85dp"
+            android:layout_marginBottom="130dp"
+            android:background="@drawable/baseline_lock_white_18dp"
+            android:backgroundTint="@color/colorTextWhite" />
+
+        <Button
+            android:id="@+id/login_buttonLogin"
+            android:layout_width="180dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="46dp"
+            android:background="@drawable/login_redondeado_button"
+            android:text="@string/button_login_text"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="20dp" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
