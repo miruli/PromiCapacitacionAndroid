@@ -10,9 +10,11 @@ import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.interfaces.ICurrencyRepository;
 import com.prominente.android.viaticgo.interfaces.IExpenseTypeRepository;
 import com.prominente.android.viaticgo.interfaces.IServiceLineRepository;
+import com.prominente.android.viaticgo.interfaces.ITripRepository;
 import com.prominente.android.viaticgo.models.Currency;
 import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.ServiceLine;
+import com.prominente.android.viaticgo.models.Trip;
 
 import java.util.ArrayList;
 
@@ -44,11 +46,15 @@ public class SyncService extends IntentService {
     private SyncExpenseTypesTask syncExpenseTypesTask;
     private IExpenseTypeRepository expenseTypeRepository;
 
+    private SyncTripTask syncTripTask;
+    private ITripRepository tripRepository;
+
     public SyncService() {
         super("SyncService");
         serviceLineRepository = SugarRepository.getInstance();
         currencyRepository = SugarRepository.getInstance();
         expenseTypeRepository = SugarRepository.getInstance();
+        tripRepository = SugarRepository.getInstance();
     }
 
     /**
@@ -113,6 +119,8 @@ public class SyncService extends IntentService {
         syncCurrenciesTask.execute();
         syncExpenseTypesTask = new SyncExpenseTypesTask();
         syncExpenseTypesTask.execute();
+        syncTripTask = new SyncTripTask();
+        syncTripTask.execute();
     }
 
     /**
@@ -201,6 +209,30 @@ public class SyncService extends IntentService {
         protected void onPostExecute(ArrayList<ExpenseType> list) {
             if (list != null) {
                 expenseTypeRepository.syncExpenseTypes(SyncService.this, list);
+            }
+        }
+    }
+
+    private class SyncTripTask extends AsyncTask<Void, Integer, ArrayList<Trip>> {
+        public SyncTripTask() {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Trip> doInBackground(Void... voids) {
+            ArrayList<Trip> list = ApiClient.getInstance(SyncService.this).fetchAllTrips();
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Trip> list) {
+            if (list != null) {
+                tripRepository.syncTrips(SyncService.this, list);
             }
         }
     }

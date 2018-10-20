@@ -27,7 +27,12 @@
     <string name="action_send_tickets">Enviar tickets</string>
 
     <string name="new_expense">Nuevo ticket</string>
-    <string name="edit_expense">Edición ticket</string>
+    <string name="edit_expense">Editar ticket</string>
+
+    <string name="surrender_tickets">Rendición tickets</string>
+    <string name="send_surrender_button">Finalizar rendición</string>
+    <string name="numberTrip_hint">Número de viaje</string>
+    <string name="tiketsCount_hint">Cantidad de tickets</string>
 
     <string name="dark_theme">Tema oscuro</string>
 

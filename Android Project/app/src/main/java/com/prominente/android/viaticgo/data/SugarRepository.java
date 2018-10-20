@@ -11,16 +11,18 @@ import com.prominente.android.viaticgo.interfaces.ICurrencyRepository;
 import com.prominente.android.viaticgo.interfaces.IExpenseTypeRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
 import com.prominente.android.viaticgo.interfaces.IServiceLineRepository;
+import com.prominente.android.viaticgo.interfaces.ITripRepository;
 import com.prominente.android.viaticgo.models.Currency;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.ServiceLine;
+import com.prominente.android.viaticgo.models.Trip;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SugarRepository implements IServiceLineRepository, ICurrencyRepository, IExpenseTypeRepository, IExpensesRepository {
+public class SugarRepository implements IServiceLineRepository, ICurrencyRepository, IExpenseTypeRepository, IExpensesRepository, ITripRepository {
     private static SugarRepository instance;
 
     private SugarRepository() {
@@ -122,6 +124,36 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
     }
 
     @Override
+    public void syncTrips(Context context, ArrayList<Trip> trips) {
+        for (Trip serverTrip:trips) {
+            List<Trip> serviceTripsWithId = SugarRecord.find(Trip.class, "TRIP_ID = ?", Integer.toString(serverTrip.getTripId()));
+            if (serviceTripsWithId != null && serviceTripsWithId.size() > 0) {
+                if (serviceTripsWithId.size() == 1) {
+                    Trip trip = serviceTripsWithId.get(0);
+                    trip.setDescription(serverTrip.getDescription());
+                    SugarRecord.save(trip);
+                }
+                else {
+                    //TODO: preguntar si cual de las dos
+                    //throw new RuntimeException("duplicated ids");
+                    SugarRecord.deleteAll(Trip.class, "TRIP_ID = ?", Integer.toString(serverTrip.getTripId()));
+                    SugarRecord.save(serverTrip);
+                }
+            }
+            else {
+                SugarRecord.save(serverTrip);
+            }
+        }
+    }
+
+    @Override
+    public ArrayList<Trip> getAllTrips(Context context) {
+        ArrayList<Trip> toReturn = new ArrayList<>();
+        toReturn.addAll(SugarRecord.listAll(Trip.class));
+        return toReturn;
+    }
+
+    @Override
     public void saveExpense(Context context, Expense expense) {
         SugarRecord.save(expense);
     }
@@ -147,7 +179,8 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
     @Override
     public void deleteExpenses(Context context, ArrayList<Expense> expenses) {
         for (Expense expense:expenses) {
-            SugarRecord.delete(expense);
+            //SugarRecord.delete(expense);
+            SugarRecord.deleteAll(Expense.class,"EXPENSE_ID = ?", Long.toString(expense.getExpenseId()));
         }
     }
 

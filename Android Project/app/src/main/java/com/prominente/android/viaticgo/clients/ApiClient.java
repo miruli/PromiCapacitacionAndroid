@@ -9,6 +9,7 @@ import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.LoggedUser;
 import com.prominente.android.viaticgo.models.LoginResponse;
 import com.prominente.android.viaticgo.models.ServiceLine;
+import com.prominente.android.viaticgo.models.Trip;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -131,6 +132,30 @@ public final class ApiClient {
             IApiClient client = retrofit.create(IApiClient.class);
             Call<ArrayList<ExpenseType>> getAllCurrenciesCall = client.getAllExpenseTypes();
             return getAllCurrenciesCall.execute().body();
+        } catch (Exception e) {
+/*            loginResponse = new LoginResponse();
+            loginResponse.setError(e.getClass().getName());
+            loginResponse.setErrorDescription(e.getMessage());*/
+        }
+        return null;
+    }
+
+    public ArrayList<Trip> fetchAllTrips() {
+        try {
+            //TODO: invocar API correspondiente a la obtencion de viajes
+            //Retrofit retrofit = buildRetrofit();
+            //IApiClient client = retrofit.create(IApiClient.class);
+            //Call<ArrayList<Trip>> getAllTripsCall = client.getAllTrips();
+            //return getAllTripsCall.execute().body();
+            ArrayList<Trip> trips = new ArrayList<Trip>();
+            Trip trip = null;
+            for(int i = 1; i<= 5; i++){
+                trip = new Trip();
+                trip.setTripId(i);
+                trip.setDescription("Viaje " + i);
+                trips.add(trip);
+            }
+            return trips;
         } catch (Exception e) {
 /*            loginResponse = new LoginResponse();
             loginResponse.setError(e.getClass().getName());

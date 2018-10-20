@@ -1,6 +1,5 @@
 package com.prominente.android.viaticgo.adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -20,13 +19,12 @@ import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.activities.ExpenseActivity;
+import com.prominente.android.viaticgo.activities.SurrenderActivity;
 import com.prominente.android.viaticgo.constants.RequestCodes;
-import com.prominente.android.viaticgo.constants.SerializerKeys;
 import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.constants.ExtraKeys;
-import com.prominente.android.viaticgo.serializers.ObjectSerializer;
 
 import java.util.ArrayList;
 
@@ -139,8 +137,16 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
                                 return true;
 
                             case R.id.action_send_tickets:
-                                /*TODO: completar */
-                                Toast.makeText(activity , "lala", Toast.LENGTH_SHORT).show();
+                                ArrayList<Expense> selExpenses = new ArrayList<>();
+                                for (Expense expense:getItems()) {
+                                    if (expense.getSelected()) {
+                                        selExpenses.add(expense);
+                                    }
+                                }
+                                Intent intent = new Intent(activity, SurrenderActivity.class);
+                                intent.putExtra(ExtraKeys.SURRENDER_EXPENSE, selExpenses);
+                                activity.startActivity(intent);
+                                mode.finish();
                                 return true;
                         }
                         return false;
@@ -203,8 +209,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
 
         @Override
         protected Void doInBackground(ArrayList<Expense>... arrayLists) {
-            for(int i= 0; i<= arrayLists.length -1; i++)
-            {
+            for(int i= 0; i<= arrayLists.length -1; i++){
                 expensesRepository.deleteExpenses(activity, arrayLists[i]);
             }
             return null;

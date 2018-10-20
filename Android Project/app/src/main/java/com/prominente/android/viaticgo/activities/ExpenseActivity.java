@@ -101,7 +101,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
 
         Expense expense = (Expense)getIntent().getSerializableExtra(ExtraKeys.EXPENSE);
         if(expense != null){
-            toolbar.setTitle(R.string.edit_expense);
+            actionbar.setTitle(R.string.edit_expense);
             btnAddExpense.setText(R.string.save_expense_button);
             editExpense(expense);
         }
@@ -117,6 +117,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
                 expense.setCurrency(currenciesAdapter.getSelectedItem());
                 expense.setServiceLine(serviceLinesAdapter.getSelectedItem());
                 expense.setExpenseId(Long.valueOf(txtExpenseId.getText().toString()));
+
                 Intent intent = new Intent();
                 intent.putExtra(ExtraKeys.EXPENSE, expense);
                 setResult(RESULT_OK, intent);
@@ -224,8 +225,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         txtAmount.setText(Double.valueOf(expense.getAmount()).toString());
         AppCompatEditText txtExpenseId = findViewById(R.id.txtExpenseId);
         txtExpenseId.setText(Long.toString(expense.getExpenseId()));
-        txtDate.setText(expense.getDate().toString());
-
+        txtDate.setText(parseDateToString(expense.getDate()));
         serviceLinesAdapter.setSelectedIndex(getIndexServiceLinesAdapter(itemsServiceLine, expense.getServiceLine().getServiceLineId()));
         setEditTextAdapter(serviceLinesAdapter, (AppCompatEditText)findViewById(R.id.txtServiceLine));
         currenciesAdapter.setSelectedIndex(getIndexCurrenciesAdapter(itemsCurrency, expense.getCurrency().getCurrencyId()));
@@ -271,7 +271,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     }
 
     private Date parseStringToDate(String date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         Date convertedDate = new Date();
         try {
             convertedDate = dateFormat.parse(txtDate.getText().toString());
@@ -279,6 +279,13 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         }
         return convertedDate;
     }
+
+    private String parseDateToString(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        String convertedDate = dateFormat.format(date);
+        return convertedDate;
+    }
+
 
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
@@ -291,7 +298,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     ivTicket.setImageBitmap(selectedImage);
-                }
+                 }
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
