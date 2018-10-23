@@ -1,14 +1,11 @@
 package com.prominente.android.viaticgo.adapters;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,15 +49,8 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
     @Override
     public void onBindViewHolder(@NonNull final ExpenseViewHolder holder, final int position) {
         final Expense expense = getItems().get(position);
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = activity.getTheme();
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        @ColorInt final int color = typedValue.data;
-        theme.resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
-        @ColorInt final int colorDark = typedValue.data;
         holder.tvTitle.setText(expense.getDescription());
         holder.tvSubtitle.setText(String.valueOf(expense.getAmount()));
-        holder.itemView.setBackgroundColor(expense.getSelected() ? colorDark : color);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +68,6 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
             @Override
             public boolean onLongClick(View v) {
                 expense.setSelected(!expense.getSelected());
-                holder.itemView.setBackgroundColor(expense.getSelected() ? colorDark: color);
                 if (actionMode != null) {
                     actionMode.setTitle(Integer.toString(getSelectedItemsCount()));
                     return false;
