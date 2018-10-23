@@ -25,7 +25,6 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.prominente.android.viaticgo.models" />
-
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -35,20 +34,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
+        </activity>
+        <activity android:name=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
+        </activity>
         <activity
             android:name=".activities.ExpenseActivity"
-            android:label="@string/new_expense" />
+            android:label="@string/new_expense"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
+        </activity>
         <activity
             android:name=".activities.PreferencesActivity"
-            android:label="@string/nav_text_settings" />
-
+            android:label="@string/nav_text_settings"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
+        </activity>
+        <activity android:name=".activities.SurrenderActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation">
+        </activity>
         <service
             android:name=".services.SyncService"
             android:exported="false" />
-
-        <activity android:name=".activities.SurrenderActivity"></activity>
     </application>
-
 </manifest>
