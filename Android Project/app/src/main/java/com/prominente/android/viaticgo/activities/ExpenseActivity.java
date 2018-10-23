@@ -226,8 +226,8 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         setEditTextAdapter(currenciesAdapter, (AppCompatEditText)findViewById(R.id.txtCurrency));
         typesAdapter.setSelectedIndex(getIndexTypesAdapter(itemsExpenseType, expense.getType().getExpenseTypeId()));
         setEditTextAdapter(typesAdapter, (AppCompatEditText)findViewById(R.id.txtType));
-        loadImageFromUri(this,ivTicket, Uri.parse(expense.getImageUri()));
-
+        if (expense.getImageUri() != null)
+            loadImageFromUri(this,ivTicket, Uri.parse(expense.getImageUri()));
     }
 
     private Long getNewExpenseId(){
