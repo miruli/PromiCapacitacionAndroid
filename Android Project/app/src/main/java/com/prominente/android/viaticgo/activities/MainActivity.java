@@ -92,14 +92,6 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
                                 transaction.addToBackStack(null);
                                 transaction.commit();
                                 break;
-                            case R.id.nav_blank:
-                                drawerLayout.closeDrawers();
-                                newFragment = BlankFragment.newInstance("", "");
-                                transaction = getSupportFragmentManager().beginTransaction();
-                                transaction.replace(R.id.content_frame, newFragment);
-                                transaction.addToBackStack(null);
-                                transaction.commit();
-                                break;
                             case R.id.nav_settings:
                                 drawerLayout.closeDrawers();
                                 Intent settingsIntent = new Intent(MainActivity.this, PreferencesActivity.class);
@@ -124,9 +116,6 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
         Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
         if (activeFragment instanceof ExpensesFragment) {
             navigationView.setCheckedItem(R.id.nav_expenses);
-        }
-        else if (activeFragment instanceof BlankFragment) {
-            navigationView.setCheckedItem(R.id.nav_blank);
         }
     }
 
