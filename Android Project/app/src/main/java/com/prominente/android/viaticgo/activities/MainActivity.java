@@ -76,11 +76,11 @@ public class MainActivity extends LightDarkAppCompatActivity implements BlankFra
                                 transaction.addToBackStack(null);
                                 transaction.commit();
                                 break;
-                            case R.id.nav_settings:
+                            /*case R.id.nav_settings:
                                 drawerLayout.closeDrawers();
                                 Intent settingsIntent = new Intent(MainActivity.this, PreferencesActivity.class);
                                 startActivity(settingsIntent);
-                                break;
+                                break;*/
                             case R.id.nav_logout:
                                 loggedUserRepository.saveLoggedUser(MainActivity.this, null);
                                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);

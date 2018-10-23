@@ -2,6 +2,7 @@ package com.prominente.android.viaticgo.adapters;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.util.TypedValue;
+import android.content.res.Resources;
 
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.activities.ExpenseActivity;
@@ -49,8 +52,15 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
     @Override
     public void onBindViewHolder(@NonNull final ExpenseViewHolder holder, final int position) {
         final Expense expense = getItems().get(position);
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = activity.getTheme();
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        @ColorInt final int color = typedValue.data;
+        @ColorInt final int noColor = 0x00000000;
+
         holder.tvTitle.setText(expense.getDescription());
         holder.tvSubtitle.setText(String.valueOf(expense.getAmount()));
+        holder.itemView.setBackgroundColor(expense.getSelected() ? color : noColor);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,10 +78,14 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
             @Override
             public boolean onLongClick(View v) {
                 expense.setSelected(!expense.getSelected());
+
+                holder.itemView.setBackgroundColor(expense.getSelected() ? color : noColor);
+
                 if (actionMode != null) {
                     actionMode.setTitle(Integer.toString(getSelectedItemsCount()));
                     return false;
                 }
+
                 actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
                     @Override
                     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
