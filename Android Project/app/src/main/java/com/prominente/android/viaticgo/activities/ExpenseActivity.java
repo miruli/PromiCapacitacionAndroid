@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 import android.net.Uri;
-
 import com.bumptech.glide.Glide;
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.adapters.ArrayIpAdapter;
