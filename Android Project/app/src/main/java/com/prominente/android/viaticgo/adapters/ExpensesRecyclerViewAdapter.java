@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.activities.ExpenseActivity;
@@ -65,19 +64,6 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-          /*      if (actionMode != null) {
-                    ArrayList<Expense> expenses = getItems();
-                    for (Expense e:expenses) {
-                        if (e.getSelected()){
-                            expense.setSelected(!expense.getSelected());
-                            holder.itemView.setBackgroundColor(expense.getSelected() ? colorDark: color);
-                            break;
-                        }
-                    }
-                    actionMode.setTitle(Integer.toString(getSelectedItemsCount()));
-                    actionMode.invalidate();
-                }
-            */
 
                 if (getSelectedItemsCount() == 0) {
                     Intent intent = new Intent(activity, ExpenseActivity.class);
@@ -219,4 +205,5 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         protected void onPostExecute(Void aVoid) {
         }
     }
+
 }

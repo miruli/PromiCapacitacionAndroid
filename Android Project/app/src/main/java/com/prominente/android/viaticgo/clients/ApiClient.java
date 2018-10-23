@@ -1,6 +1,7 @@
 package com.prominente.android.viaticgo.clients;
 
 import android.content.Context;
+
 import com.prominente.android.viaticgo.data.LocalStorageRepository;
 import com.prominente.android.viaticgo.interfaces.IApiClient;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
@@ -9,10 +10,12 @@ import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.LoggedUser;
 import com.prominente.android.viaticgo.models.LoginResponse;
 import com.prominente.android.viaticgo.models.ServiceLine;
+import com.prominente.android.viaticgo.models.Surrender;
 import com.prominente.android.viaticgo.models.Trip;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -162,5 +165,18 @@ public final class ApiClient {
             loginResponse.setErrorDescription(e.getMessage());*/
         }
         return null;
+    }
+
+    public Integer sendSurrender(Surrender surrender){
+        //TODO: invocar API para sincronizar Rendiciones
+        //TODO: eliminar sleep
+        try{
+            Thread.sleep(2000);
+        }
+        catch (InterruptedException ex) {
+        }
+
+        Integer responseCode = 1;
+        return responseCode;
     }
 }

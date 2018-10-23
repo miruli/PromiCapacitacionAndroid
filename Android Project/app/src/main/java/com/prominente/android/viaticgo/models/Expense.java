@@ -1,10 +1,7 @@
 package com.prominente.android.viaticgo.models;
 
-import android.net.Uri;
-
 import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,7 +19,7 @@ public class Expense implements Serializable {
     private int currencyId;
     private ServiceLine serviceLine;
     private int serviceLineId;
-   // private Uri imageUri;
+    private String imageUri;
     private boolean selected;//TODO: revisar esto
 
     public Expense(){
@@ -94,15 +91,14 @@ public class Expense implements Serializable {
         this.serviceLineId = serviceLine.getServiceLineId();
     }
 
-    /*
-    public Uri getImageUri() {
+    public String getImageUri() {
         return imageUri;
     }
 
-    public void setImageUri(Uri imageUri) {
+    public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
     }
-*/
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
@@ -110,4 +106,5 @@ public class Expense implements Serializable {
     public boolean getSelected() {
         return  selected;
     }
+
 }

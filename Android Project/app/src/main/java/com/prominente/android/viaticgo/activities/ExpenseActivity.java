@@ -1,36 +1,29 @@
 package com.prominente.android.viaticgo.activities;
 
 import android.app.DatePickerDialog;
-import android.app.DownloadManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.print.PrinterId;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Toast;
 import android.net.Uri;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
+import com.bumptech.glide.Glide;
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.adapters.ArrayIpAdapter;
 import com.prominente.android.viaticgo.constants.ExtraKeys;
 import com.prominente.android.viaticgo.constants.RequestCodes;
-import com.prominente.android.viaticgo.data.LocalStorageRepository;
 import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.fragments.DatePickerFragment;
 import com.prominente.android.viaticgo.fragments.ItemPickerFragment;
@@ -42,15 +35,10 @@ import com.prominente.android.viaticgo.models.Currency;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.ServiceLine;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class ExpenseActivity extends LightDarkAppCompatActivity {
@@ -69,6 +57,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     private ArrayList<ServiceLine> itemsServiceLine;
     private ArrayList<ExpenseType> itemsExpenseType;
     private ArrayList<Currency> itemsCurrency;
+    private Expense expense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +88,15 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         itemsCurrency = currencyRepository.getAllCurrencies(ExpenseActivity.this);
         currenciesAdapter = new ArrayIpAdapter<>(ExpenseActivity.this, android.R.layout.select_dialog_item, itemsCurrency);
 
-        Expense expense = (Expense)getIntent().getSerializableExtra(ExtraKeys.EXPENSE);
+        expense = (Expense)getIntent().getSerializableExtra(ExtraKeys.EXPENSE);
         if(expense != null){
             actionbar.setTitle(R.string.edit_expense);
             btnAddExpense.setText(R.string.save_expense_button);
             editExpense(expense);
+        }
+        else
+        {
+            expense = new Expense();
         }
 
         btnAddExpense.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +104,8 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
             public void onClick(View view) {
                 AppCompatEditText txtDescription = findViewById(R.id.txtDescription);
                 AppCompatEditText txtAmount = findViewById(R.id.txtAmount);
-                Expense expense = new Expense(txtDescription.getText().toString(), Double.valueOf(txtAmount.getText().toString()));
+                expense.setDescription(txtDescription.getText().toString());
+                expense.setAmount(Double.valueOf(txtAmount.getText().toString()));
                 expense.setDate(parseStringToDate(txtDate.getText().toString()));
                 expense.setType(typesAdapter.getSelectedItem());
                 expense.setCurrency(currenciesAdapter.getSelectedItem());
@@ -218,6 +212,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "itemPicker");
     }
 
+
     private void editExpense(Expense expense) {
         AppCompatEditText txtDescription = findViewById(R.id.txtDescription);
         txtDescription.setText(expense.getDescription());
@@ -232,6 +227,8 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         setEditTextAdapter(currenciesAdapter, (AppCompatEditText)findViewById(R.id.txtCurrency));
         typesAdapter.setSelectedIndex(getIndexTypesAdapter(itemsExpenseType, expense.getType().getExpenseTypeId()));
         setEditTextAdapter(typesAdapter, (AppCompatEditText)findViewById(R.id.txtType));
+        loadImageFromUri(this,ivTicket, Uri.parse(expense.getImageUri()));
+
     }
 
     private Long getNewExpenseId(){
@@ -286,25 +283,21 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         return convertedDate;
     }
 
+    private void loadImageFromUri(Context context, AppCompatImageView imageView, Uri uri) {
+        Glide.with(context).load(uri).into(imageView);
+    }
 
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            try {
-                if(reqCode == RequestCodes.RESULT_LOAD_IMG) {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    ivTicket.setImageBitmap(selectedImage);
-                 }
+            if(reqCode == RequestCodes.RESULT_LOAD_IMG) {
+                final Uri imageUri = data.getData();
+                expense.setImageUri(imageUri.toString());
+                loadImageFromUri(this, ivTicket, imageUri);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Toast.makeText(this, R.string.generic_error, Toast.LENGTH_LONG).show();
             }
-
         }else {
             Toast.makeText(this, R.string.image_not_selected_expense_fragment,Toast.LENGTH_LONG).show();
         }

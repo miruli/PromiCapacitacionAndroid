@@ -47,4 +47,5 @@ public abstract class ArrayRvAdapter<T, VH extends RecyclerView.ViewHolder> exte
         this.items = new ArrayList<>(items);
         notifyDataSetChanged();
     }
+
 }

@@ -1,6 +1,7 @@
 package com.prominente.android.viaticgo.fragments;
 
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;

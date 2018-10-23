@@ -172,6 +172,7 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
             expenseToUpdate.setSelected(expense.getSelected());
             expenseToUpdate.setServiceLine(expense.getServiceLine());
             expenseToUpdate.setType(expense.getType());
+            expenseToUpdate.setImageUri(expense.getImageUri());
             SugarRecord.save(expenseToUpdate);
         }
     }
