@@ -38,8 +38,6 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         this.expensesRepository = SugarRepository.getInstance();
     }
 
-
-
     @NonNull
     @Override
     public ExpensesRecyclerViewAdapter.ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,94 +62,24 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (getSelectedItemsCount() == 0) {
                     Intent intent = new Intent(activity, ExpenseActivity.class);
                     intent.putExtra(ExtraKeys.EXPENSE, expense);
                     intent.putExtra(ExtraKeys.MODE_EXPENSE_ACTIVITY,RequestCodes.EDIT_EXPENSE);
                     activity.startActivity(intent);
                 }
-
+                else {
+                    refreshModeSelection(holder, expense, color, noColor);
+                }
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                expense.setSelected(!expense.getSelected());
+                if (getSelectedItemsCount() > 0)
+                    return true;
 
-                holder.itemView.setBackgroundColor(expense.getSelected() ? color : noColor);
-
-                if (actionMode != null) {
-                    actionMode.setTitle(Integer.toString(getSelectedItemsCount()));
-                    return false;
-                }
-
-                actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
-                    @Override
-                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                        mode.getMenuInflater().inflate(R.menu.fragment_expenses_menu, menu);
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                        for (Expense e:getItems()) {
-                            if (e.getSelected()){
-                                return true;
-                            }
-                        }
-                        mode.finish();
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_delete:
-                                ArrayList<Expense> selectedExpenses = new ArrayList<>();
-                                ArrayList<Expense> newExpensesList = new ArrayList<>();
-                                for (Expense expense:getItems()) {
-                                    if (expense.getSelected()) {
-                                        selectedExpenses.add(expense);
-                                    }
-                                    else {
-                                        newExpensesList.add(expense);
-                                    }
-                                }
-                                setItems(newExpensesList);
-                                notifyDataSetChanged();
-                                DeleteExpenseTask deleteExpenseTask = new DeleteExpenseTask();
-                                deleteExpenseTask.execute(selectedExpenses);
-                                mode.finish();
-                                return true;
-
-                            case R.id.action_send_tickets:
-                                ArrayList<Expense> selExpenses = new ArrayList<>();
-                                for (Expense expense:getItems()) {
-                                    if (expense.getSelected()) {
-                                        selExpenses.add(expense);
-                                    }
-                                }
-                                Intent intent = new Intent(activity, SurrenderActivity.class);
-                                intent.putExtra(ExtraKeys.SURRENDER_EXPENSE, selExpenses);
-                                activity.startActivity(intent);
-                                mode.finish();
-                                return true;
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    public void onDestroyActionMode(ActionMode mode) {
-                        for (Expense expense:getItems()) {
-                            expense.setSelected(false);
-                        }
-                        notifyDataSetChanged();
-                        actionMode = null;
-                    }
-                });
-                actionMode.setTitle(Integer.toString(getSelectedItemsCount()));
-                return true;
+                return refreshModeSelection(holder, expense, color, noColor);
             }
         });
 
@@ -163,7 +91,89 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         return getItems().size();
     }
 
-    public int getSelectedItemsCount() {
+    private boolean refreshModeSelection(@NonNull final ExpenseViewHolder holder, Expense expense,
+                                        @ColorInt final int color, @ColorInt final int noColor){
+
+        expense.setSelected(!expense.getSelected());
+        holder.itemView.setBackgroundColor(expense.getSelected() ? color : noColor);
+
+        if (getSelectedItemsCount() == 0) {
+            actionMode.finish();
+            return true;
+        }
+
+        if (actionMode == null) {
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.fragment_expenses_menu, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    for (Expense e:getItems()) {
+                        if (e.getSelected()){
+                            return true;
+                        }
+                    }
+                    mode.finish();
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.action_delete:
+                            ArrayList<Expense> selectedExpenses = new ArrayList<>();
+                            ArrayList<Expense> newExpensesList = new ArrayList<>();
+                            for (Expense expense:getItems()) {
+                                if (expense.getSelected()) {
+                                    selectedExpenses.add(expense);
+                                }
+                                else {
+                                    newExpensesList.add(expense);
+                                }
+                            }
+                            setItems(newExpensesList);
+                            notifyDataSetChanged();
+                            DeleteExpenseTask deleteExpenseTask = new DeleteExpenseTask();
+                            deleteExpenseTask.execute(selectedExpenses);
+                            mode.finish();
+                            return true;
+
+                        case R.id.action_send_tickets:
+                            ArrayList<Expense> selExpenses = new ArrayList<>();
+                            for (Expense expense:getItems()) {
+                                if (expense.getSelected()) {
+                                    selExpenses.add(expense);
+                                }
+                            }
+                            Intent intent = new Intent(activity, SurrenderActivity.class);
+                            intent.putExtra(ExtraKeys.SURRENDER_EXPENSE, selExpenses);
+                            activity.startActivity(intent);
+                            mode.finish();
+                            return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    for (Expense expense:getItems()) {
+                        expense.setSelected(false);
+                    }
+                    notifyDataSetChanged();
+                    actionMode = null;
+                }
+            });
+        }
+
+        actionMode.setTitle(Integer.toString(getSelectedItemsCount()));
+        return true;
+    }
+
+    private int getSelectedItemsCount() {
         int count = 0;
         for (Expense expense:getItems()) {
             if (expense.getSelected()) {
