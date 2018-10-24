@@ -16,7 +16,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loggedUserRepository = LocalStorageRepository.getInstance();
+        /*loggedUserRepository = LocalStorageRepository.getInstance();
         LoggedUser user = loggedUserRepository.loadLoggedUser(this);
         if (user != null && user.getToken() != null && !user.getToken().isEmpty()) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -26,6 +26,6 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
     }
 }
