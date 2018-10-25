@@ -44,6 +44,11 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     private IExpensesRepository expensesRepository;
     private SaveExpenseTask saveExpenseTask;
     private UpdateExpenseTask updateExpenseTask;
+    private AppCompatButton btnAddExpense;
+    private AppCompatEditText txtDescription;
+    private AppCompatEditText txtAmount;
+    private AppCompatEditText txtExpenseId;
+    private AppCompatEditText txtId;
     private AppCompatEditText txtDate;
     private DateFormat dateFormat;
     private ArrayIpAdapter<ExpenseType> typesAdapter;
@@ -62,6 +67,13 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
+        btnAddExpense = findViewById(R.id.btnAddExpense);
+        txtExpenseId = findViewById(R.id.txtExpenseId);
+        txtDescription = findViewById(R.id.txtDescription);
+        txtAmount = findViewById(R.id.txtAmount);
+        txtExpenseId = findViewById(R.id.txtExpenseId);
+        txtId = findViewById(R.id.txtId);
+        txtDate = findViewById(R.id.txtDate);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionbar = getSupportActionBar();
@@ -72,14 +84,8 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         serviceLineRepository = SugarRepository.getInstance();
         currencyRepository = SugarRepository.getInstance();
         expenseTypeRepository = SugarRepository.getInstance();
-        txtDate = findViewById(R.id.txtDate);
         dateFormat = android.text.format.DateFormat.getDateFormat(this);
         ivTicket = findViewById(R.id.ivTicket);
-        final AppCompatButton btnAddExpense = findViewById(R.id.btnAddExpense);
-
-        final AppCompatEditText txtExpenseId = findViewById(R.id.txtExpenseId);
-        txtExpenseId.setText(Long.toString(getNewExpenseId()));
-
         itemsServiceLine = serviceLineRepository.getAllServiceLines(ExpenseActivity.this);
         serviceLinesAdapter = new ArrayIpAdapter<>(ExpenseActivity.this, android.R.layout.select_dialog_item, itemsServiceLine);
         itemsExpenseType = expenseTypeRepository.getAllExpenseTypes(ExpenseActivity.this);
@@ -101,15 +107,16 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         btnAddExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatEditText txtDescription = findViewById(R.id.txtDescription);
-                AppCompatEditText txtAmount = findViewById(R.id.txtAmount);
                 expense.setDescription(txtDescription.getText().toString());
                 expense.setAmount(Double.valueOf(txtAmount.getText().toString()));
                 expense.setDate(parseStringToDate(txtDate.getText().toString()));
                 expense.setType(typesAdapter.getSelectedItem());
                 expense.setCurrency(currenciesAdapter.getSelectedItem());
                 expense.setServiceLine(serviceLinesAdapter.getSelectedItem());
-                expense.setExpenseId(Long.valueOf(txtExpenseId.getText().toString()));
+                if (txtExpenseId.length() > 0)
+                    expense.setExpenseId(Long.valueOf(txtExpenseId.getText().toString()));
+                if (txtId.length() > 0)
+                    expense.setId(Long.valueOf(txtId.getText().toString()));
 
                 Intent intent = new Intent();
                 intent.putExtra(ExtraKeys.EXPENSE, expense);
@@ -170,11 +177,9 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, RequestCodes.RESULT_LOAD_IMG);
-
             }
         });
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -211,14 +216,12 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "itemPicker");
     }
 
-
     private void editExpense(Expense expense) {
-        AppCompatEditText txtDescription = findViewById(R.id.txtDescription);
         txtDescription.setText(expense.getDescription());
-        AppCompatEditText txtAmount = findViewById(R.id.txtAmount);
         txtAmount.setText(Double.valueOf(expense.getAmount()).toString());
-        AppCompatEditText txtExpenseId = findViewById(R.id.txtExpenseId);
-        txtExpenseId.setText(Long.toString(expense.getExpenseId()));
+        if (expense.getExpenseId() != null)
+            txtExpenseId.setText(Long.toString(expense.getExpenseId()));
+        txtId.setText(Long.toString(expense.getId()));
         txtDate.setText(parseDateToString(expense.getDate()));
         serviceLinesAdapter.setSelectedIndex(getIndexServiceLinesAdapter(itemsServiceLine, expense.getServiceLine().getServiceLineId()));
         setEditTextAdapter(serviceLinesAdapter, (AppCompatEditText)findViewById(R.id.txtServiceLine));
@@ -230,13 +233,8 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
             loadImageFromUri(this,ivTicket, Uri.parse(expense.getImageUri()));
     }
 
-    private Long getNewExpenseId(){
-        Date date = new Date();
-        return date.getTime();
-    }
-
     private int getIndexServiceLinesAdapter(ArrayList<ServiceLine> items, int id){
-        int i=0;
+        int i;
         for(i=0; i<=items.size(); i++) {
             if(id == items.get(i).getServiceLineId())
                 break;
@@ -245,7 +243,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     }
 
     private int getIndexCurrenciesAdapter(ArrayList<Currency> items, int id){
-        int i=0;
+        int i;
         for(i=0; i<=items.size(); i++) {
             if(id == items.get(i).getCurrencyId())
                 break;
@@ -254,7 +252,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     }
 
     private int getIndexTypesAdapter(ArrayList<ExpenseType> items, int id){
-        int i=0;
+        int i;
         for(i=0; i<=items.size(); i++) {
             if(id == items.get(i).getExpenseTypeId())
                 break;
@@ -358,4 +356,5 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
             }
         }
     }
+
 }

@@ -191,10 +191,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_ticket_rv_title);
             tvSubtitle = itemView.findViewById(R.id.tv_ticket_rv_subtitle);
-
         }
-
-
     }
 
     private class DeleteExpenseTask extends AsyncTask<ArrayList<Expense>, Integer, Void> {

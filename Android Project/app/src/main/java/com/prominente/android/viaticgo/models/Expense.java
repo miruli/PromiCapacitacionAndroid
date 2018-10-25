@@ -1,12 +1,9 @@
 package com.prominente.android.viaticgo.models;
 
-import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
-import java.io.Serializable;
 import java.util.Date;
 
-@Table
-public class Expense implements Serializable {
+public class Expense extends ViaticGoModel  {
 
     @Unique
     private Long expenseId;
@@ -106,5 +103,4 @@ public class Expense implements Serializable {
     public boolean getSelected() {
         return  selected;
     }
-
 }

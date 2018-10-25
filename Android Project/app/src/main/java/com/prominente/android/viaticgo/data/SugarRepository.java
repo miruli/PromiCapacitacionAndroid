@@ -160,21 +160,16 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
 
     @Override
     public void updateExpense(Context context, Expense expense) {
-        //SugarRecord.deleteAll(Expense.class, "EXPENSE_ID = ?", Long.toString(expense.getExpenseId()));
-        //SugarRecord.save(expense);
-        List<Expense> expenses = SugarRecord.find(Expense.class, "EXPENSE_ID = ?", Long.toString(expense.getExpenseId()));
-        if(expenses.size() == 1) {
-            Expense expenseToUpdate = expenses.get(0);
-            expenseToUpdate.setDescription(expense.getDescription());
-            expenseToUpdate.setAmount(expense.getAmount());
-            expenseToUpdate.setCurrency(expense.getCurrency());
-            expenseToUpdate.setDate(expense.getDate());
-            expenseToUpdate.setSelected(expense.getSelected());
-            expenseToUpdate.setServiceLine(expense.getServiceLine());
-            expenseToUpdate.setType(expense.getType());
-            expenseToUpdate.setImageUri(expense.getImageUri());
-            SugarRecord.save(expenseToUpdate);
-        }
+        Expense expenseToUpdate = SugarRecord.findById(Expense.class, expense.getId());
+        expenseToUpdate.setDescription(expense.getDescription());
+        expenseToUpdate.setAmount(expense.getAmount());
+        expenseToUpdate.setCurrency(expense.getCurrency());
+        expenseToUpdate.setDate(expense.getDate());
+        expenseToUpdate.setSelected(expense.getSelected());
+        expenseToUpdate.setServiceLine(expense.getServiceLine());
+        expenseToUpdate.setType(expense.getType());
+        expenseToUpdate.setImageUri(expense.getImageUri());
+        SugarRecord.save(expenseToUpdate);
     }
 
     @Override
