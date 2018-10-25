@@ -1,9 +1,13 @@
 package com.prominente.android.viaticgo.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
-public class Trip extends ViaticGoModel {
+import java.io.Serializable;
+
+@Table
+public class Trip implements Serializable {
 
     @SerializedName("TripId")
     @Unique

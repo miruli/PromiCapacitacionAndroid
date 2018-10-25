@@ -1,28 +1,26 @@
 package com.prominente.android.viaticgo.data;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.textservice.SuggestionsInfo;
-import android.widget.SearchView;
 
 import com.orm.SugarRecord;
-import com.prominente.android.viaticgo.constants.ExtraKeys;
 import com.prominente.android.viaticgo.interfaces.ICurrencyRepository;
 import com.prominente.android.viaticgo.interfaces.IExpenseTypeRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
 import com.prominente.android.viaticgo.interfaces.IServiceLineRepository;
 import com.prominente.android.viaticgo.interfaces.ITripRepository;
+import com.prominente.android.viaticgo.interfaces.ISurrenderRepository;
 import com.prominente.android.viaticgo.models.Currency;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.ServiceLine;
+import com.prominente.android.viaticgo.models.Surrender;
 import com.prominente.android.viaticgo.models.Trip;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class SugarRepository implements IServiceLineRepository, ICurrencyRepository, IExpenseTypeRepository, IExpensesRepository, ITripRepository {
+public class SugarRepository implements IServiceLineRepository, ICurrencyRepository, IExpenseTypeRepository,
+                                        IExpensesRepository, ITripRepository, ISurrenderRepository {
     private static SugarRepository instance;
 
     private SugarRepository() {
@@ -169,6 +167,7 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
         expenseToUpdate.setServiceLine(expense.getServiceLine());
         expenseToUpdate.setType(expense.getType());
         expenseToUpdate.setImageUri(expense.getImageUri());
+        expenseToUpdate.setSurrenderId(expense.getSurrenderId());
         SugarRecord.save(expenseToUpdate);
     }
 
@@ -187,4 +186,27 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
         return toReturn;
     }
 
+    @Override
+    public Boolean saveSurrender(Context context, Surrender surrender) {
+        SugarRecord.save(surrender);
+        for(Expense expense : surrender.getExpensesList())
+        {
+            expense.setSurrenderId(surrender.getId());
+            SugarRecord.save(expense);
+        }
+        return true;
+    }
+
+    @Override
+    public void deleteSurrender(Context context, Surrender surrender) {
+        SugarRecord.delete(surrender);
+        SugarRecord.deleteAll(Expense.class, "SURRENDER_ID = ?", Long.toString(surrender.getId()));
+    }
+
+    @Override
+    public ArrayList<Surrender> getAllSurrenders(Context context) {
+        ArrayList<Surrender> toReturn = new ArrayList<>();
+        toReturn.addAll(SugarRecord.listAll(Surrender.class));
+        return toReturn;
+    }
 }

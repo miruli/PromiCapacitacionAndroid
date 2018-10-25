@@ -17,10 +17,10 @@ import android.widget.Toast;
 
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.adapters.ArrayIpAdapter;
-import com.prominente.android.viaticgo.clients.ApiClient;
 import com.prominente.android.viaticgo.constants.ExtraKeys;
 import com.prominente.android.viaticgo.fragments.ItemPickerFragment;
 import com.prominente.android.viaticgo.interfaces.ITripRepository;
+import com.prominente.android.viaticgo.interfaces.ISurrenderRepository;
 import com.prominente.android.viaticgo.models.Expense;
 import com.prominente.android.viaticgo.models.Surrender;
 import com.prominente.android.viaticgo.models.Trip;
@@ -30,11 +30,13 @@ import java.util.ArrayList;
 
 public class SurrenderActivity extends LightDarkAppCompatActivity {
     private SendSurrenderTask sendSurrenderTask;
-    private ArrayList<Expense> expenseList;
+    private Surrender surrender;
     private ITripRepository tripRepository;
+    private ISurrenderRepository surrenderRepository;
     private ArrayList<Trip> itemsTrip;
     private ArrayIpAdapter<Trip> tripAdapter;
     private AppCompatEditText txtCount;
+    private AppCompatEditText txtNumberTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +45,21 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         tripRepository = SugarRepository.getInstance();
+        surrenderRepository = SugarRepository.getInstance();
 
         final ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_arrow_back);
         actionbar.setTitle(R.string.surrender_tickets);
 
+        txtNumberTrip = findViewById(R.id.txtNumberTrip);
+        txtCount = findViewById(R.id.txtCount);
 
-        expenseList = (ArrayList<Expense>)getIntent().getSerializableExtra(ExtraKeys.SURRENDER_EXPENSE);
-        if(expenseList != null){
-            txtCount = findViewById(R.id.txtCount);
-            txtCount.setText(Integer.toString(expenseList.size()));
-        }
+        ArrayList<Expense> list = (ArrayList<Expense>)getIntent().getSerializableExtra(ExtraKeys.SURRENDER_EXPENSE);
+        txtCount.setText(Integer.toString(list.size()));
+
+        surrender = new Surrender();
+        surrender.setExpensesList(list);
 
         final AppCompatImageButton btnSelectNumberTrip = findViewById(R.id.btnSelectNumberTrip);
         btnSelectNumberTrip.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +67,7 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
             public void onClick(View v) {
                 itemsTrip = tripRepository.getAllTrips(SurrenderActivity.this);
                 tripAdapter = new ArrayIpAdapter<>(SurrenderActivity.this, android.R.layout.select_dialog_item, itemsTrip);
-                showItemPickerDialog(v, tripAdapter, (AppCompatEditText)findViewById(R.id.txtNumberTrip));
+                showItemPickerDialog(v, tripAdapter, txtNumberTrip);
             }
         });
 
@@ -70,10 +75,8 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
         btnSendSurrender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Surrender surrender = new Surrender();
-                surrender.setExpensesList(expenseList);
-                surrender.setTripId(1);
                 sendSurrenderTask = new SendSurrenderTask();
+                surrender.setTrip(tripAdapter.getSelectedItem());
                 sendSurrenderTask.execute(surrender);
             }
         });
@@ -137,7 +140,7 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
                 });
     }
 
-    private class SendSurrenderTask extends AsyncTask<Surrender, Integer, Integer> {
+    private class SendSurrenderTask extends AsyncTask<Surrender, Integer, Boolean> {
         public SendSurrenderTask() {
         }
 
@@ -148,24 +151,19 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
         }
 
         @Override
-        protected Integer doInBackground(Surrender... surrenders) {
-            return ApiClient.getInstance(SurrenderActivity.this).sendSurrender(surrenders[0]);
+        protected Boolean doInBackground(Surrender... surrenders) {
+            return surrenderRepository.saveSurrender(SurrenderActivity.this, surrenders[0]);
         }
 
         @Override
-        protected void onPostExecute(Integer responseCode) {
-          if (responseCode == 1) {
+        protected void onPostExecute(Boolean result) {
+          if (result) {
                 Toast.makeText(SurrenderActivity.this, "La Rendición se sincronizo exitosamente ", Toast.LENGTH_LONG).show();
-
-                //TODO: eliminar lista de tickets
                 finish();
-
             }
-            else{
+            else {
                 Toast.makeText(SurrenderActivity.this, "Se produjo en error en la sincronización, intente nuevamente ", Toast.LENGTH_LONG).show();
             }
-
-
             hideLoading();
         }
     }

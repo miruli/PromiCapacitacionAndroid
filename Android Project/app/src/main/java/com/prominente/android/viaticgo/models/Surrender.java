@@ -1,19 +1,13 @@
 package com.prominente.android.viaticgo.models;
 
-import com.orm.dsl.Table;
-import com.orm.dsl.Unique;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
-@Table
-public class Surrender implements Serializable{
+public class Surrender extends ViaticGoModel {
     private ArrayList<Expense> expensesList;
     private int tripId;
+    private Trip trip;
 
     public Surrender(){
-
     }
 
     public ArrayList<Expense> getExpensesList() {
@@ -30,5 +24,14 @@ public class Surrender implements Serializable{
 
     public void setTripId(int tripId) {
         this.tripId = tripId;
+    }
+
+    public Trip getTrip() {
+        return trip;
+    }
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
+        this.tripId = trip.getTripId();
     }
 }

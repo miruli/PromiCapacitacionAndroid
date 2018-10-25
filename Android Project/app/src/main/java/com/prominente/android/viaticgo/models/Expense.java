@@ -17,6 +17,7 @@ public class Expense extends ViaticGoModel  {
     private ServiceLine serviceLine;
     private int serviceLineId;
     private String imageUri;
+    private Long surrenderId;
     private boolean selected;//TODO: revisar esto
 
     public Expense(){
@@ -26,7 +27,6 @@ public class Expense extends ViaticGoModel  {
     public Expense(String description, double amount) {
         this.description = description;
         this.amount = amount;
-
     }
 
     public Long getExpenseId() {
@@ -103,4 +103,13 @@ public class Expense extends ViaticGoModel  {
     public boolean getSelected() {
         return  selected;
     }
+
+    public Long getSurrenderId() {
+        return surrenderId;
+    }
+
+    public void setSurrenderId(Long surrenderId) {
+        this.surrenderId = surrenderId;
+    }
+
 }
