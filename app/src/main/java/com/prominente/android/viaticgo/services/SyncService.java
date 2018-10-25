@@ -5,16 +5,22 @@ import android.content.Intent;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.prominente.android.viaticgo.activities.SurrenderActivity;
 import com.prominente.android.viaticgo.clients.ApiClient;
 import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.interfaces.ICurrencyRepository;
 import com.prominente.android.viaticgo.interfaces.IExpenseTypeRepository;
 import com.prominente.android.viaticgo.interfaces.IServiceLineRepository;
+import com.prominente.android.viaticgo.interfaces.ISurrenderRepository;
+import com.prominente.android.viaticgo.interfaces.ITripRepository;
 import com.prominente.android.viaticgo.models.Currency;
 import com.prominente.android.viaticgo.models.ExpenseType;
 import com.prominente.android.viaticgo.models.ServiceLine;
+import com.prominente.android.viaticgo.models.Surrender;
+import com.prominente.android.viaticgo.models.Trip;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -44,11 +50,19 @@ public class SyncService extends IntentService {
     private SyncExpenseTypesTask syncExpenseTypesTask;
     private IExpenseTypeRepository expenseTypeRepository;
 
+    private SyncTripTask syncTripTask;
+    private ITripRepository tripRepository;
+
+    private SyncSurrenders syncSurrenders;
+    private ISurrenderRepository surrenderRepository;
+
     public SyncService() {
         super("SyncService");
         serviceLineRepository = SugarRepository.getInstance();
         currencyRepository = SugarRepository.getInstance();
         expenseTypeRepository = SugarRepository.getInstance();
+        tripRepository = SugarRepository.getInstance();
+        surrenderRepository = SugarRepository.getInstance();
     }
 
     /**
@@ -113,6 +127,10 @@ public class SyncService extends IntentService {
         syncCurrenciesTask.execute();
         syncExpenseTypesTask = new SyncExpenseTypesTask();
         syncExpenseTypesTask.execute();
+        syncTripTask = new SyncTripTask();
+        syncTripTask.execute();
+        syncSurrenders = new SyncSurrenders();
+        syncSurrenders.execute();
     }
 
     /**
@@ -202,6 +220,59 @@ public class SyncService extends IntentService {
             if (list != null) {
                 expenseTypeRepository.syncExpenseTypes(SyncService.this, list);
             }
+        }
+    }
+
+    private class SyncTripTask extends AsyncTask<Void, Integer, ArrayList<Trip>> {
+        public SyncTripTask() {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Trip> doInBackground(Void... voids) {
+            ArrayList<Trip> list = ApiClient.getInstance(SyncService.this).fetchAllTrips();
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Trip> list) {
+            if (list != null) {
+                tripRepository.syncTrips(SyncService.this, list);
+            }
+        }
+    }
+
+    private class SyncSurrenders extends AsyncTask<Void, Integer, ArrayList<Surrender>> {
+        public SyncSurrenders() {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Surrender> doInBackground(Void... voids) {
+            ArrayList<Surrender> list = surrenderRepository.getAllSurrenders(SyncService.this);
+            for (Surrender surrender : list)
+            {
+                int result = ApiClient.getInstance(SyncService.this).sendSurrender(surrender);
+                if (result == 1)
+                {
+                    surrenderRepository.deleteSurrender(SyncService.this, surrender);
+                }
+            }
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Surrender> list) {
         }
     }
 }

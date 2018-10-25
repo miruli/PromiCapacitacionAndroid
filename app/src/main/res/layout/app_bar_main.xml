@@ -4,7 +4,8 @@
     android:id="@+id/appBarMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.MainActivity"
+    android:background="#FFFFFF">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -13,7 +14,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"/>
+            android:background="#80D2F2"
+            />
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />

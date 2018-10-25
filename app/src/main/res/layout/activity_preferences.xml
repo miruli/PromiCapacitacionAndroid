@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:background="#80D2F2" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -25,6 +25,13 @@
         android:layout_height="match_parent">
         <ListView android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackLogin"></ListView>
+        <TextView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="sample list"
+            android:textColor="@color/colorText" />
     </FrameLayout>
 </android.support.v7.widget.LinearLayoutCompat>

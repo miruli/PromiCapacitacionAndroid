@@ -16,6 +16,7 @@
     <!-- Dark application theme. -->
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog.Alert">

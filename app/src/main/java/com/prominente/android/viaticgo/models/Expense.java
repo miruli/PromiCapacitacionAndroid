@@ -1,12 +1,12 @@
 package com.prominente.android.viaticgo.models;
 
-import com.orm.dsl.Table;
-import java.io.Serializable;
+import com.orm.dsl.Unique;
 import java.util.Date;
 
-@Table
-public class Expense implements Serializable {
+public class Expense extends ViaticGoModel  {
 
+    @Unique
+    private Long expenseId;
     private String description;
     private double amount;
     private Date date;
@@ -16,6 +16,8 @@ public class Expense implements Serializable {
     private int currencyId;
     private ServiceLine serviceLine;
     private int serviceLineId;
+    private String imageUri;
+    private Long surrenderId;
     private boolean selected;//TODO: revisar esto
 
     public Expense(){
@@ -25,6 +27,14 @@ public class Expense implements Serializable {
     public Expense(String description, double amount) {
         this.description = description;
         this.amount = amount;
+    }
+
+    public Long getExpenseId() {
+        return expenseId;
+    }
+
+    public void setExpenseId(Long expenseId) {
+        this.expenseId = expenseId;
     }
 
     public String getDescription() {
@@ -78,6 +88,14 @@ public class Expense implements Serializable {
         this.serviceLineId = serviceLine.getServiceLineId();
     }
 
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
+
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
@@ -85,4 +103,13 @@ public class Expense implements Serializable {
     public boolean getSelected() {
         return  selected;
     }
+
+    public Long getSurrenderId() {
+        return surrenderId;
+    }
+
+    public void setSurrenderId(Long surrenderId) {
+        this.surrenderId = surrenderId;
+    }
+
 }

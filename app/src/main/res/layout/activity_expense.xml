@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.ExpenseActivity">
+    tools:context=".activities.ExpenseActivity"
+    android:drawable="@color/colorBackLogin"
+    android:background="@color/colorBackLogin"
+    >
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -15,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary" />
+            android:background="#80D2F2" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -28,7 +31,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorText">
                 
 
             <android.support.v7.widget.AppCompatEditText
@@ -40,7 +44,19 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorText">
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/txtId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorText">
                 
 
             <android.support.v7.widget.AppCompatEditText
@@ -53,11 +69,13 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorText">
 
             <android.support.design.widget.TextInputLayout android:id="@+id/tilDate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorText">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/txtDate"
@@ -92,7 +110,8 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tilType"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorText">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/txtType"
@@ -126,7 +145,8 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tilCurrency"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorText">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/txtCurrency"
@@ -160,7 +180,8 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tilServiceLine"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorText">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/txtServiceLine"
@@ -191,6 +212,7 @@
             android:id="@+id/btnAddExpense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FF9D00"
             android:text="@string/add_expense_button" />
 
     </android.support.v7.widget.LinearLayoutCompat>
