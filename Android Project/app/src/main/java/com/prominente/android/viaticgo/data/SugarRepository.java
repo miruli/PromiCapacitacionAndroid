@@ -182,7 +182,8 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
     @Override
     public ArrayList<Expense> loadExpenses(Context context) {
         ArrayList<Expense> toReturn = new ArrayList<>();
-        toReturn.addAll(SugarRecord.listAll(Expense.class));
+        List<Expense> list = SugarRecord.find(Expense.class, "SURRENDER_ID is null");
+        toReturn.addAll(list);
         return toReturn;
     }
 
