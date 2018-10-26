@@ -174,8 +174,7 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
     @Override
     public void deleteExpenses(Context context, ArrayList<Expense> expenses) {
         for (Expense expense:expenses) {
-            //SugarRecord.delete(expense);
-            SugarRecord.deleteAll(Expense.class,"EXPENSE_ID = ?", Long.toString(expense.getExpenseId()));
+            SugarRecord.delete(expense);
         }
     }
 
