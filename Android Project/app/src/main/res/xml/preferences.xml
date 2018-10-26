@@ -4,6 +4,5 @@
     android:layout_height="match_parent">
     <CheckBoxPreference
         android:key="dark_theme"
-        android:title="@string/dark_theme"
         android:defaultValue="true" />
 </PreferenceScreen>

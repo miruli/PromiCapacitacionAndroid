@@ -27,10 +27,10 @@ public class PreferencesActivity extends PreferenceActivity {
         getDelegate().onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         darkThemePrevious = sharedPreferences.getBoolean(PreferenceKeys.DARK_THEME, true);
-        if (darkThemePrevious)
+        /*if (darkThemePrevious)
             setTheme(R.style.AppTheme_Dark);
         else
-            setTheme(R.style.AppTheme);
+            setTheme(R.style.AppTheme);*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
         Toolbar toolbar = findViewById(R.id.toolbar);

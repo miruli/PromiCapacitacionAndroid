@@ -4,15 +4,15 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:clickable="true">
+    android:padding="16dp">
     <TextView
         android:id="@+id/tv_ticket_rv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title">
+    </TextView>
     <TextView
         android:id="@+id/tv_ticket_rv_subtitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 </LinearLayout>

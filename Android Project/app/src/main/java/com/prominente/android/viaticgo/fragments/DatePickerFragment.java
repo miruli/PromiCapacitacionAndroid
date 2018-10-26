@@ -23,9 +23,9 @@ public class DatePickerFragment extends DialogFragment {
         Dialog dialog;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean darkTheme = sharedPreferences.getBoolean(PreferenceKeys.DARK_THEME, true);
-        if (darkTheme)
+       /* if (darkTheme)
             dialog = new DatePickerDialog(getActivity(), R.style.AppTheme_Dark_Dialog, onDateSetListener, year, month, day);
-        else
+        else*/
             dialog = new DatePickerDialog(getActivity(), R.style.AppTheme_Dialog, onDateSetListener, year, month, day);
         return dialog;
     }

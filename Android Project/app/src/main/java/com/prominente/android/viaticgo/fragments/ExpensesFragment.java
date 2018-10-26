@@ -149,6 +149,4 @@ public class ExpensesFragment extends Fragment {
             }
         }
     }
-
-
 }

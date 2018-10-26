@@ -4,8 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.BlankFragment">
-
+    tools:context=".fragments.BlankFragment"
+    android:background="#FFFFFF">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#80D2F2" />
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"

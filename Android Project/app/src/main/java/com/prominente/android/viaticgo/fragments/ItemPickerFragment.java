@@ -21,10 +21,10 @@ public class ItemPickerFragment extends android.support.v4.app.DialogFragment {
         AlertDialog.Builder builder;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         boolean darkTheme = sharedPreferences.getBoolean(PreferenceKeys.DARK_THEME, true);
-        if (darkTheme)
+
+            builder = new AlertDialog.Builder(getActivity(), R.style/*if (darkTheme)
             builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dark_Dialog);
-        else
-            builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dialog);
+        else*/.AppTheme_Dialog);
         builder.setAdapter(adapter, onClickListener);
         return builder.create();
     }

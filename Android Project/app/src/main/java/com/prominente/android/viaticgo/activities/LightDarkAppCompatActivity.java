@@ -12,12 +12,12 @@ import com.prominente.android.viaticgo.constants.PreferenceKeys;
 public class LightDarkAppCompatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean darkTheme = sharedPreferences.getBoolean(PreferenceKeys.DARK_THEME, true);
         if (darkTheme)
             setTheme(R.style.AppTheme_Dark);
         else
-            setTheme(R.style.AppTheme);
+            setTheme(R.style.AppTheme);*/
         super.onCreate(savedInstanceState);
     }
 }

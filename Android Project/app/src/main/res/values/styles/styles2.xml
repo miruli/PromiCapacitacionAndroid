@@ -1,19 +1,25 @@
 <resources>
-
     <!-- Splash activity theme. -->
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
-
     <!-- Light application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorText</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/bg_dialog</item>
+    </style>
+
+    <!-- Dark application theme. -->
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@drawable/bg_dialog</item>
     </style>
