@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#80D2F2" />
+            android:background="@color/colorPrimary" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -229,6 +229,7 @@
             android:id="@+id/ivTicket"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             />
 
         <android.support.v7.widget.AppCompatButton
