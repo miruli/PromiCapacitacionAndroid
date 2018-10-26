@@ -7,27 +7,12 @@
     android:orientation="vertical"
     tools:context=".activities.LoginActivity">
 
-    <android.support.constraint.ConstraintLayout android:id="@+id/constraintLayoutImg"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_sentiment_neutral_black_24dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constrainedHeight="true"
-            app:layout_constraintTop_toTopOf="@id/constraintLayoutImg"
-            app:layout_constraintBottom_toBottomOf="@id/constraintLayoutImg"
-            app:layout_constraintEnd_toEndOf="@id/constraintLayoutImg"
-            app:layout_constraintStart_toStartOf="@id/constraintLayoutImg"
-            android:tint="@color/colorAccent"/>
-
-
-    </android.support.constraint.ConstraintLayout>
+        android:layout_height="wrap_content">
 
     <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -36,6 +21,28 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <android.support.constraint.ConstraintLayout android:id="@+id/constraintLayoutImg"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sentiment_neutral_black_24dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintTop_toTopOf="@id/constraintLayoutImg"
+                app:layout_constraintBottom_toBottomOf="@id/constraintLayoutImg"
+                app:layout_constraintEnd_toEndOf="@id/constraintLayoutImg"
+                app:layout_constraintStart_toStartOf="@id/constraintLayoutImg"
+                android:tint="@color/colorAccent"/>
+
+
+        </android.support.constraint.ConstraintLayout>
+        
         <android.support.v7.widget.LinearLayoutCompat android:id="@+id/linearLayoutInputs"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -84,4 +91,5 @@
 
     </android.support.v7.widget.LinearLayoutCompat>
 
+    </ScrollView>
 </android.support.v7.widget.LinearLayoutCompat>
