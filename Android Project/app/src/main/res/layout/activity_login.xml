@@ -1,38 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.LoginActivity"
-    android:padding="@dimen/login_margin">
+    tools:context=".activities.LoginActivity">
 
-    <android.support.constraint.ConstraintLayout android:id="@+id/constraintLayoutImg"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@drawable/isologotipo"/>
-
-    </android.support.constraint.ConstraintLayout>
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/login_margin"
+        android:scrollbars="none">
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
             android:orientation="vertical"
             android:padding="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/isologotipo"/>
 
             <android.support.v7.widget.LinearLayoutCompat
                 android:id="@+id/linearLayoutInputs"
@@ -68,10 +60,8 @@
                     android:id="@+id/btnLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ff9d00"
-                    android:drawable="@color/colorAccent"
-                    android:text="@string/login_button"
-                    android:tint="@color/colorAccent" />
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="@string/login_button" />
 
             </android.support.v7.widget.LinearLayoutCompat>
 

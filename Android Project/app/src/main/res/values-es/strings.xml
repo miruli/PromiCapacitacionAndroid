@@ -40,7 +40,5 @@
     <string name="image_not_selected_expense_fragment">Debe seleccionar una imagen</string>
 
     <string name="generic_error">Ocurrio un error</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hola blank fragment</string>
+    <string name="welcome">Bienvenido</string>
 </resources>

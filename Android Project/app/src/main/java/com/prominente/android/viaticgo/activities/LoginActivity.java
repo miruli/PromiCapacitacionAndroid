@@ -26,12 +26,18 @@ import com.prominente.android.viaticgo.models.LoginResponseOld;
 public class LoginActivity extends LightDarkAppCompatActivity {
     private ILoggedUserRepository loggedUserRepository;
     private LoginTask loginTask;
+    private int shortAnimationDuration;
+    private ContentLoadingProgressBar barLogin;
+    private LinearLayoutCompat linearLayoutInputs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loggedUserRepository = LocalStorageRepository.getInstance();
         setContentView(R.layout.activity_login);
+        shortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        linearLayoutInputs = findViewById(R.id.linearLayoutInputs);
+        barLogin = findViewById(R.id.pbarLogin);
         final Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,18 +51,15 @@ public class LoginActivity extends LightDarkAppCompatActivity {
     }
 
     private void showLoading() {
-        int mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        final ContentLoadingProgressBar pbarLogin = findViewById(R.id.pbarLogin);
-        pbarLogin.setAlpha(0f);
-        pbarLogin.setVisibility(View.VISIBLE);
-        pbarLogin.animate()
+        barLogin.setAlpha(0f);
+        barLogin.setVisibility(View.VISIBLE);
+        barLogin.animate()
                 .alpha(1f)
-                .setDuration(mShortAnimationDuration)
+                .setDuration(shortAnimationDuration)
                 .setListener(null);
-        final LinearLayoutCompat linearLayoutInputs = findViewById(R.id.linearLayoutInputs);
         linearLayoutInputs.animate()
                 .alpha(0f)
-                .setDuration(mShortAnimationDuration)
+                .setDuration(shortAnimationDuration)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -66,25 +69,19 @@ public class LoginActivity extends LightDarkAppCompatActivity {
     }
 
     private void hideLoading() {
-        int mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-
-        final LinearLayoutCompat linearLayoutInputs = findViewById(R.id.linearLayoutInputs);
         linearLayoutInputs.setVisibility(View.VISIBLE);
         linearLayoutInputs.setAlpha(0f);
         linearLayoutInputs.animate()
                 .alpha(1f)
-                .setDuration(mShortAnimationDuration)
+                .setDuration(shortAnimationDuration)
                 .setListener(null);
-
-        final ContentLoadingProgressBar pbarLogin = findViewById(R.id.pbarLogin);
-        pbarLogin.animate()
+        barLogin.animate()
                 .alpha(0f)
-                .setDuration(mShortAnimationDuration)
+                .setDuration(shortAnimationDuration)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        pbarLogin.setVisibility(View.GONE);
+                        barLogin.setVisibility(View.GONE);
                     }
                 });
     }
@@ -107,11 +104,12 @@ public class LoginActivity extends LightDarkAppCompatActivity {
         @Override
         protected void onPostExecute(LoginResponse loginResponse) {
             LoggedUser loggedUser = null;
+            boolean loggingSuccess = false;
             if (loginResponse != null) {
                 loggedUser = new LoggedUser(loginResponse.getUserName());
-                if (loginResponse.getError() == null) {
-                    //TODO: ver si no se puede pedirle a la api unos datos mas del usuario para poner en el drawer
-                    Toast.makeText(LoginActivity.this, "hola " + loginResponse.getUserName(), Toast.LENGTH_LONG).show();
+                loggingSuccess = (loginResponse.getError() == null);
+                if (loggingSuccess) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.welcome) + " " + loginResponse.getUserName(), Toast.LENGTH_LONG).show();
                     loggedUser.setToken(loginResponse.getAccessToken());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -122,7 +120,8 @@ public class LoginActivity extends LightDarkAppCompatActivity {
                 }
             }
             loggedUserRepository.saveLoggedUser(LoginActivity.this, loggedUser);
-            hideLoading();
+            if (!loggingSuccess)
+                hideLoading();
         }
     }
 }

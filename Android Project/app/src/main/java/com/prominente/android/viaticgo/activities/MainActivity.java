@@ -16,13 +16,12 @@ import android.widget.TextView;
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.constants.RequestCodes;
 import com.prominente.android.viaticgo.data.LocalStorageRepository;
-import com.prominente.android.viaticgo.fragments.BlankFragment;
 import com.prominente.android.viaticgo.fragments.ExpensesFragment;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
 import com.prominente.android.viaticgo.models.LoggedUser;
 import com.prominente.android.viaticgo.services.SyncService;
 
-public class MainActivity extends LightDarkAppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
+public class MainActivity extends LightDarkAppCompatActivity {
     private DrawerLayout drawerLayout;
     private ILoggedUserRepository loggedUserRepository;
 

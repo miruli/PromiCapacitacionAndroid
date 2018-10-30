@@ -40,6 +40,6 @@
     <string name="image_not_selected_expense_fragment">You must select an image</string>
 
     <string name="generic_error">An error occurred</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="welcome">Welcome</string>
 </resources>
