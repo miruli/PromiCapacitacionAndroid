@@ -8,11 +8,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -42,14 +42,12 @@ import java.util.Date;
 
 public class ExpenseActivity extends LightDarkAppCompatActivity {
     private IExpensesRepository expensesRepository;
-    private SaveExpenseTask saveExpenseTask;
-    private UpdateExpenseTask updateExpenseTask;
-    private AppCompatButton btnAddExpense;
     private AppCompatEditText txtDescription;
     private AppCompatEditText txtAmount;
     private AppCompatEditText txtExpenseId;
     private AppCompatEditText txtId;
     private AppCompatEditText txtDate;
+    private AppCompatImageView ivTicket;
     private DateFormat dateFormat;
     private ArrayIpAdapter<ExpenseType> typesAdapter;
     private ArrayIpAdapter<Currency> currenciesAdapter;
@@ -57,7 +55,6 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     private IServiceLineRepository serviceLineRepository;
     private ICurrencyRepository currencyRepository;
     private IExpenseTypeRepository expenseTypeRepository;
-    private AppCompatImageView ivTicket;
     private ArrayList<ServiceLine> itemsServiceLine;
     private ArrayList<ExpenseType> itemsExpenseType;
     private ArrayList<Currency> itemsCurrency;
@@ -67,13 +64,15 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
-        btnAddExpense = findViewById(R.id.btnAddExpense);
+
         txtExpenseId = findViewById(R.id.txtExpenseId);
         txtDescription = findViewById(R.id.txtDescription);
         txtAmount = findViewById(R.id.txtAmount);
         txtExpenseId = findViewById(R.id.txtExpenseId);
         txtId = findViewById(R.id.txtId);
         txtDate = findViewById(R.id.txtDate);
+        ivTicket = findViewById(R.id.ivTicket);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionbar = getSupportActionBar();
@@ -85,7 +84,6 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         currencyRepository = SugarRepository.getInstance();
         expenseTypeRepository = SugarRepository.getInstance();
         dateFormat = android.text.format.DateFormat.getDateFormat(this);
-        ivTicket = findViewById(R.id.ivTicket);
         itemsServiceLine = serviceLineRepository.getAllServiceLines(ExpenseActivity.this);
         serviceLinesAdapter = new ArrayIpAdapter<>(ExpenseActivity.this, android.R.layout.select_dialog_item, itemsServiceLine);
         itemsExpenseType = expenseTypeRepository.getAllExpenseTypes(ExpenseActivity.this);
@@ -96,47 +94,12 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         expense = (Expense)getIntent().getSerializableExtra(ExtraKeys.EXPENSE);
         if(expense != null){
             actionbar.setTitle(R.string.edit_expense);
-            btnAddExpense.setText(R.string.save_expense_button);
-            editExpense(expense);
+            edit(expense);
         }
         else
         {
             expense = new Expense();
         }
-
-        btnAddExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                expense.setDescription(txtDescription.getText().toString());
-                expense.setAmount(Double.valueOf(txtAmount.getText().toString()));
-                expense.setDate(parseStringToDate(txtDate.getText().toString()));
-                expense.setType(typesAdapter.getSelectedItem());
-                expense.setCurrency(currenciesAdapter.getSelectedItem());
-                expense.setServiceLine(serviceLinesAdapter.getSelectedItem());
-                if (txtExpenseId.length() > 0)
-                    expense.setExpenseId(Long.valueOf(txtExpenseId.getText().toString()));
-                if (txtId.length() > 0)
-                    expense.setId(Long.valueOf(txtId.getText().toString()));
-
-                Intent intent = new Intent();
-                intent.putExtra(ExtraKeys.EXPENSE, expense);
-                setResult(RESULT_OK, intent);
-
-                Bundle extras = getIntent().getExtras();
-                if(extras == null)
-                {
-                    saveExpenseTask = new SaveExpenseTask(findViewById(R.id.appBarMain));
-                    saveExpenseTask.execute(expense);
-                }
-                else {
-                    if(extras.getInt(ExtraKeys.MODE_EXPENSE_ACTIVITY) == RequestCodes.EDIT_EXPENSE) {
-                        updateExpenseTask = new UpdateExpenseTask(findViewById(R.id.appBarMain));
-                        updateExpenseTask.execute(expense);
-                    }
-                }
-                finish();
-            }
-        });
 
         final AppCompatImageButton btnSelectDate = findViewById(R.id.btnSelectDate);
         btnSelectDate.setOnClickListener(new View.OnClickListener() {
@@ -182,8 +145,22 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_expense_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_save:
+                save();
+                return true;
+
+            case R.id.action_delete:
+                delete();
+                return true;
+
             case android.R.id.home:
                 finish();
                 return true;
@@ -191,32 +168,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void showDatePickerDialog(View v) {
-        DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Date date = new Date(year - 1900, month, dayOfMonth);
-                txtDate.setText(dateFormat.format(date));
-            }
-        });
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    public void showItemPickerDialog(final View v, final ArrayIpAdapter adapter, final AppCompatEditText appCompatEditText) {
-        ItemPickerFragment newFragment = new ItemPickerFragment();
-        newFragment.setAdapter(adapter);
-        newFragment.setOnClickListener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                adapter.setSelectedIndex(which);
-                appCompatEditText.setText(adapter.getSelectedItem().toString());
-            }
-        });
-        newFragment.show(getSupportFragmentManager(), "itemPicker");
-    }
-
-    private void editExpense(Expense expense) {
+    private void edit(Expense expense) {
         txtDescription.setText(expense.getDescription());
         txtAmount.setText(Double.valueOf(expense.getAmount()).toString());
         if (expense.getExpenseId() != null)
@@ -231,6 +183,72 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         setEditTextAdapter(typesAdapter, (AppCompatEditText)findViewById(R.id.txtType));
         if (expense.getImageUri() != null)
             loadImageFromUri(this,ivTicket, Uri.parse(expense.getImageUri()));
+    }
+
+    private void save(){
+        expense.setDescription(txtDescription.getText().toString());
+        expense.setAmount(Double.valueOf(txtAmount.getText().toString()));
+        expense.setDate(parseStringToDate(txtDate.getText().toString()));
+        expense.setType(typesAdapter.getSelectedItem());
+        expense.setCurrency(currenciesAdapter.getSelectedItem());
+        expense.setServiceLine(serviceLinesAdapter.getSelectedItem());
+        if (txtExpenseId.length() > 0)
+            expense.setExpenseId(Long.valueOf(txtExpenseId.getText().toString()));
+        if (txtId.length() > 0)
+            expense.setId(Long.valueOf(txtId.getText().toString()));
+
+        Intent intent = new Intent();
+        intent.putExtra(ExtraKeys.EXPENSE, expense);
+        setResult(RESULT_OK, intent);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null)
+        {
+            SaveExpenseTask saveExpenseTask = new SaveExpenseTask(findViewById(R.id.appBarMain));
+            saveExpenseTask.execute(expense);
+        }
+        else {
+            if(extras.getInt(ExtraKeys.MODE_EXPENSE_ACTIVITY) == RequestCodes.EDIT_EXPENSE) {
+                UpdateExpenseTask updateExpenseTask = new UpdateExpenseTask(findViewById(R.id.appBarMain));
+                updateExpenseTask.execute(expense);
+            }
+        }
+        finish();
+    }
+
+    private void delete(){
+        Intent intent = new Intent();
+        intent.putExtra(ExtraKeys.EXPENSE, expense);
+        setResult(RESULT_OK, intent);
+
+        DeleteExpenseTask deleteExpenseTask = new DeleteExpenseTask(findViewById(R.id.appBarMain));
+        deleteExpenseTask.execute(expense);
+        finish();
+    }
+
+    private void showDatePickerDialog(View v) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Date date = new Date(year - 1900, month, dayOfMonth);
+                txtDate.setText(dateFormat.format(date));
+            }
+        });
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    private void showItemPickerDialog(final View v, final ArrayIpAdapter adapter, final AppCompatEditText appCompatEditText) {
+        ItemPickerFragment newFragment = new ItemPickerFragment();
+        newFragment.setAdapter(adapter);
+        newFragment.setOnClickListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                adapter.setSelectedIndex(which);
+                appCompatEditText.setText(adapter.getSelectedItem().toString());
+            }
+        });
+        newFragment.show(getSupportFragmentManager(), "itemPicker");
     }
 
     private int getIndexServiceLinesAdapter(ArrayList<ServiceLine> items, int id){
@@ -268,7 +286,7 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
         Date convertedDate = new Date();
         try {
-            convertedDate = dateFormat.parse(txtDate.getText().toString());
+            convertedDate = dateFormat.parse(date);
         } catch (ParseException e) {
         }
         return convertedDate;
@@ -317,7 +335,6 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
             for (Expense expense:newExpenses) {
                 expensesRepository.saveExpense(ExpenseActivity.this, expense);
             }
-            //TODO: preguntarle a Alfredo si esta bien devolver null en este caso
             return null;
         }
 
@@ -357,4 +374,31 @@ public class ExpenseActivity extends LightDarkAppCompatActivity {
         }
     }
 
+    private class DeleteExpenseTask extends AsyncTask<Expense, Integer, Void> {
+        private View viewForSnackbar;
+
+        public DeleteExpenseTask(View viewForSnackbar) {
+            this.viewForSnackbar = viewForSnackbar;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Expense... expenses) {
+            for (Expense expense:expenses) {
+                expensesRepository.deleteExpense(ExpenseActivity.this, expense);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            if (viewForSnackbar != null) {
+                Snackbar.make(viewForSnackbar, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        }
+    }
 }

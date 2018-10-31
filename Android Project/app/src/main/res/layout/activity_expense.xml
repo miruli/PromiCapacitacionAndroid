@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,251 +16,249 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary" />
+            android:background="?attr/colorPrimary" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <android.support.design.widget.TextInputLayout
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-                
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txtDescription"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.prominente.android.viaticgo.components.TextInputLayoutFix
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/description_hint" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content">
+                    
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description_hint" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-                
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txtAmount"
+            </com.prominente.android.viaticgo.components.TextInputLayoutFix>
+
+            <com.prominente.android.viaticgo.components.TextInputLayoutFix
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/amount_hint"
-                android:inputType="numberDecimal" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content">
+                    
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/txtAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/amount_hint"
+                    android:inputType="numberDecimal" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            </com.prominente.android.viaticgo.components.TextInputLayoutFix>
 
-            <android.support.design.widget.TextInputLayout android:id="@+id/tilDate"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/txtDate"
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
+                    android:id="@+id/tilDate"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/txtDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/date_hint"
+                        android:inputType="none"
+                        android:textIsSelectable="true"
+                        />
+
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnSelectDate"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_hint"
-                    android:inputType="none"
-                    android:textIsSelectable="true"
-                    />
+                    android:background="@color/colorTransparent"
+                    android:src="@drawable/ic_control_calendar"
+                    app:layout_constraintBottom_toBottomOf="@id/tilDate"
+                    app:layout_constraintTop_toTopOf="@id/tilDate"
+                    app:layout_constraintEnd_toEndOf="@id/tilDate"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintDimensionRatio="1:1" />
 
-            </android.support.design.widget.TextInputLayout>
+            </android.support.constraint.ConstraintLayout>
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/btnSelectDate"
-                android:layout_width="wrap_content"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
+                    android:id="@+id/tilType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/txtType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/type_hint"
+                        android:inputType="none"
+                        android:textIsSelectable="true"/>
+
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnSelectType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransparent"
+                    android:src="@drawable/ic_control_drop_down_circle"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="@id/tilType"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@id/tilType"
+                    app:layout_constraintTop_toTopOf="@id/tilType" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
+                    android:id="@+id/tilCurrency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/txtCurrency"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/currency_hint"
+                        android:inputType="none"
+                        android:textIsSelectable="true"/>
+
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnSelectCurrency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransparent"
+                    android:src="@drawable/ic_control_drop_down_circle"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="@id/tilCurrency"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@id/tilCurrency"
+                    app:layout_constraintTop_toTopOf="@id/tilCurrency" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
+                    android:id="@+id/tilServiceLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/txtServiceLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/service_line_hint"
+                        android:inputType="none"
+                        android:textIsSelectable="true"/>
+
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnSelectServiceLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransparent"
+                    android:src="@drawable/ic_control_drop_down_circle"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="@id/tilServiceLine"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@id/tilServiceLine"
+                    app:layout_constraintTop_toTopOf="@id/tilServiceLine" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
+                    android:id="@+id/tilImgTicket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/txtImgTicket"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/image_ticket_hint"
+                        android:inputType="none"
+                        android:textIsSelectable="true"/>
+
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnAddImageTicket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransparent"
+                    android:src="@drawable/ic_menu_gallery"
+                    app:layout_constrainedHeight="true"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="@id/tilImgTicket"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@id/tilImgTicket"
+                    app:layout_constraintTop_toTopOf="@id/tilImgTicket" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivTicket"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_control_calendar"
-                app:layout_constraintBottom_toBottomOf="@id/tilDate"
-                app:layout_constraintTop_toTopOf="@id/tilDate"
-                app:layout_constraintEnd_toEndOf="@id/tilDate"
-                app:layout_constrainedHeight="true"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintDimensionRatio="1:1" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:padding="16dp"
+                />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/txtType"
+                    android:id="@+id/txtId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/type_hint"
-                    android:inputType="none"
-                    android:textIsSelectable="true"/>
+                    android:visibility="gone" />
 
             </android.support.design.widget.TextInputLayout>
-
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/btnSelectType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_control_drop_down_circle"
-                app:layout_constrainedHeight="true"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="@id/tilType"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="@id/tilType"
-                app:layout_constraintTop_toTopOf="@id/tilType" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilCurrency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/txtCurrency"
+                    android:id="@+id/txtExpenseId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/currency_hint"
-                    android:inputType="none"
-                    android:textIsSelectable="true"/>
+                    android:visibility="gone" />
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/btnSelectCurrency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_control_drop_down_circle"
-                app:layout_constrainedHeight="true"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="@id/tilCurrency"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="@id/tilCurrency"
-                app:layout_constraintTop_toTopOf="@id/tilCurrency" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilServiceLine"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/txtServiceLine"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/service_line_hint"
-                    android:inputType="none"
-                    android:textIsSelectable="true"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/btnSelectServiceLine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_control_drop_down_circle"
-                app:layout_constrainedHeight="true"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="@id/tilServiceLine"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="@id/tilServiceLine"
-                app:layout_constraintTop_toTopOf="@id/tilServiceLine" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilImgTicket"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/txtImgTicket"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/image_ticket_hint"
-                    android:inputType="none"
-                    android:textIsSelectable="true"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/btnAddImageTicket"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorTransparent"
-                android:src="@drawable/ic_menu_gallery"
-                app:layout_constrainedHeight="true"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintBottom_toBottomOf="@id/tilImgTicket"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="@id/tilImgTicket"
-                app:layout_constraintTop_toTopOf="@id/tilImgTicket" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/ivTicket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            />
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnAddExpense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:text="@string/add_expense_button" />
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txtId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/txtExpenseId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-        </android.support.design.widget.TextInputLayout>
-
-    </android.support.v7.widget.LinearLayoutCompat>
+        </android.support.v7.widget.LinearLayoutCompat>
 
     </ScrollView>
 
