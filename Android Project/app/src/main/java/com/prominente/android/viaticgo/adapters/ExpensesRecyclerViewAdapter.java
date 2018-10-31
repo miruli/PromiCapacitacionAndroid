@@ -91,6 +91,16 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         return getItems().size();
     }
 
+    private int getSelectedItemsCount() {
+        int count = 0;
+        for (Expense expense:getItems()) {
+            if (expense.getSelected()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     private boolean refreshModeSelection(@NonNull final ExpenseViewHolder holder, Expense expense,
                                         @ColorInt final int color, @ColorInt final int noColor){
 
@@ -138,7 +148,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
                             setItems(newExpensesList);
                             notifyDataSetChanged();
                             DeleteExpenseTask deleteExpenseTask = new DeleteExpenseTask();
-                            deleteExpenseTask.execute(selectedExpenses);
+                            deleteExpenseTask.execute(selectedExpenses.toArray(new Expense[0]));
                             mode.finish();
                             return true;
 
@@ -173,16 +183,6 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         return true;
     }
 
-    private int getSelectedItemsCount() {
-        int count = 0;
-        for (Expense expense:getItems()) {
-            if (expense.getSelected()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     protected static class ExpenseViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle;
         TextView tvSubtitle;
@@ -194,7 +194,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         }
     }
 
-    private class DeleteExpenseTask extends AsyncTask<ArrayList<Expense>, Integer, Void> {
+    private class DeleteExpenseTask extends AsyncTask<Expense, Integer, Void> {
         public DeleteExpenseTask() {
         }
 
@@ -204,9 +204,9 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         }
 
         @Override
-        protected Void doInBackground(ArrayList<Expense>... arrayLists) {
-            for(int i= 0; i<= arrayLists.length -1; i++){
-                expensesRepository.deleteExpenses(activity, arrayLists[i]);
+        protected Void doInBackground(Expense... expenses) {
+            for(Expense expense: expenses){
+                expensesRepository.deleteExpense(activity, expense);
             }
             return null;
         }

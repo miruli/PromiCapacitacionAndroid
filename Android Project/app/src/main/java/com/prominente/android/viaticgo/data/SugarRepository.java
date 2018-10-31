@@ -172,10 +172,8 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
     }
 
     @Override
-    public void deleteExpenses(Context context, ArrayList<Expense> expenses) {
-        for (Expense expense:expenses) {
-            SugarRecord.delete(expense);
-        }
+    public void deleteExpense(Context context, Expense expense) {
+        SugarRecord.delete(expense);
     }
 
     @Override

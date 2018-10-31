@@ -11,7 +11,7 @@ public interface IExpensesRepository {
 
     void updateExpense(Context context, Expense expense);
 
-    void deleteExpenses(Context context, ArrayList<Expense> expenses);
+    void deleteExpense(Context context, Expense expenses);
 
     ArrayList<Expense> loadExpenses(Context context);
 

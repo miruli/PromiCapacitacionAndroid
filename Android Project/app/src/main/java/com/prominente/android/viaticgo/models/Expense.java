@@ -18,7 +18,7 @@ public class Expense extends ViaticGoModel  {
     private int serviceLineId;
     private String imageUri;
     private Long surrenderId;
-    private boolean selected;//TODO: revisar esto
+    private boolean selected;
 
     public Expense(){
 
