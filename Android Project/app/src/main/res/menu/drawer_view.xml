@@ -4,10 +4,12 @@
         <item
             android:id="@+id/nav_expenses"
             android:icon="@drawable/ic_menu_file_multiple"
-            android:title="@string/nav_text_expenses" />
+            android:title="@string/nav_text_expenses"
+    />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_logout"
-            android:title="@string/nav_text_logout" />
+            android:title="@string/nav_text_logout"
+        />
     </group>
 </menu>

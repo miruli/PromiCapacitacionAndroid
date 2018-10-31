@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="192dp"
-    android:background="?attr/colorPrimaryDark"
+    android:layout_height="wrap_content"
     android:gravity="bottom"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:padding="16dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    >
+
+    <ImageView
+        android:id="@+id/nav_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:src="@drawable/navigation_drawer"
+        />
 
     <TextView
         android:id="@+id/nav_header_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My header title"
+        android:textColor="@color/colorPrimaryDark"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>
