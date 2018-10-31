@@ -31,7 +31,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <android.support.design.widget.TextInputLayout
+            <com.prominente.android.viaticgo.components.TextInputLayoutFix
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                     
@@ -40,9 +40,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description_hint" />
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            </com.prominente.android.viaticgo.components.TextInputLayoutFix>
+
+            <com.prominente.android.viaticgo.components.TextInputLayoutFix
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                     
@@ -52,13 +53,14 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/amount_hint"
                     android:inputType="numberDecimal" />
-            </android.support.design.widget.TextInputLayout>
+
+            </com.prominente.android.viaticgo.components.TextInputLayoutFix>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
                     android:id="@+id/tilDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -72,7 +74,7 @@
                         android:textIsSelectable="true"
                         />
 
-                </android.support.design.widget.TextInputLayout>
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnSelectDate"
@@ -93,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
                     android:id="@+id/tilType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -106,7 +108,7 @@
                         android:inputType="none"
                         android:textIsSelectable="true"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnSelectType"
@@ -127,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
                     android:id="@+id/tilCurrency"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -140,7 +142,7 @@
                         android:inputType="none"
                         android:textIsSelectable="true"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnSelectCurrency"
@@ -161,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
                     android:id="@+id/tilServiceLine"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -174,7 +176,7 @@
                         android:inputType="none"
                         android:textIsSelectable="true"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnSelectServiceLine"
@@ -195,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
+                <com.prominente.android.viaticgo.components.TextInputLayoutFix
                     android:id="@+id/tilImgTicket"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -208,7 +210,7 @@
                         android:inputType="none"
                         android:textIsSelectable="true"/>
 
-                </android.support.design.widget.TextInputLayout>
+                </com.prominente.android.viaticgo.components.TextInputLayoutFix>
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnAddImageTicket"
@@ -235,6 +237,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/txtId"
                     android:layout_width="match_parent"
@@ -246,11 +249,13 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/txtExpenseId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
+
             </android.support.design.widget.TextInputLayout>
 
         </android.support.v7.widget.LinearLayoutCompat>
