@@ -1,7 +1,6 @@
 package com.prominente.android.viaticgo.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.prominente.android.viaticgo.R;
-import com.prominente.android.viaticgo.constants.RequestCodes;
 import com.prominente.android.viaticgo.data.LocalStorageRepository;
 import com.prominente.android.viaticgo.fragments.ExpensesFragment;
 import com.prominente.android.viaticgo.interfaces.ILoggedUserRepository;
@@ -75,11 +73,6 @@ public class MainActivity extends LightDarkAppCompatActivity {
                                 transaction.addToBackStack(null);
                                 transaction.commit();
                                 break;
-                            /*case R.id.nav_settings:
-                                drawerLayout.closeDrawers();
-                                Intent settingsIntent = new Intent(MainActivity.this, PreferencesActivity.class);
-                                startActivity(settingsIntent);
-                                break;*/
                             case R.id.nav_logout:
                                 loggedUserRepository.saveLoggedUser(MainActivity.this, null);
                                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
@@ -128,27 +121,5 @@ public class MainActivity extends LightDarkAppCompatActivity {
                 super.onBackPressed();
             }
         }
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //TODO: preguntarle a Alfredo si aca seria conveniente empezar por el codigo de resultado (mensaje de error generico) o por el codigo de request (mensaje de error especifico)
-        switch (requestCode) {
-            case RequestCodes.NEW_EXPENSE:
-                /*if (resultCode == RESULT_OK) {
-                    Expense expense = (Expense) data.getSerializableExtra(ExtraKeys.EXPENSE);
-                    Fragment activeFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                    if (activeFragment instanceof ExpensesFragment) {
-                        ((ExpensesFragment)activeFragment).addExpense(expense);
-                    }
-                    else {
-                        fragmentToLoad = new ExpensesFragment();
-                    }
-                }*/
-                break;
-        }
-    }
-
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }
