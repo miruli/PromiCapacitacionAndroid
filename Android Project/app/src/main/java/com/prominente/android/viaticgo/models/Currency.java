@@ -11,7 +11,7 @@ public class Currency implements Serializable{
     @SerializedName("MonedaId")
     @Unique
     private int currencyId;
-    private char symbol;
+    private String symbol;
     @SerializedName("Descripcion")
     private String description;
 
@@ -19,7 +19,7 @@ public class Currency implements Serializable{
 
     }
 
-    public Currency(int currencyId, char symbol, String description) {
+    public Currency(int currencyId, String symbol, String description) {
         this.currencyId = currencyId;
         this.symbol = symbol;
         this.description = description;
@@ -33,11 +33,11 @@ public class Currency implements Serializable{
         this.currencyId = currencyId;
     }
 
-    public char getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(char symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 

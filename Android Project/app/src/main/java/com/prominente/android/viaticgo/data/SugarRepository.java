@@ -72,7 +72,10 @@ public class SugarRepository implements IServiceLineRepository, ICurrencyReposit
                 if (currenciesWithId.size() == 1) {
                     Currency currency = currenciesWithId.get(0);
                     currency.setDescription(serverCurrency.getDescription());
-                    currency.setSymbol(serverCurrency.getSymbol());
+                    String symbol = serverCurrency.getSymbol();
+                    if (symbol == null)
+                        symbol = "$";
+                    currency.setSymbol(symbol);
                     SugarRecord.save(currency);
                 }
                 else {

@@ -1,30 +1,32 @@
 package com.prominente.android.viaticgo.adapters;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.util.TypedValue;
-import android.content.res.Resources;
 
 import com.prominente.android.viaticgo.R;
 import com.prominente.android.viaticgo.activities.ExpenseActivity;
 import com.prominente.android.viaticgo.activities.SurrenderActivity;
+import com.prominente.android.viaticgo.constants.ExtraKeys;
 import com.prominente.android.viaticgo.constants.RequestCodes;
 import com.prominente.android.viaticgo.data.SugarRepository;
 import com.prominente.android.viaticgo.interfaces.IExpensesRepository;
 import com.prominente.android.viaticgo.models.Expense;
-import com.prominente.android.viaticgo.constants.ExtraKeys;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, ExpensesRecyclerViewAdapter.ExpenseViewHolder> {
@@ -32,8 +34,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
     private ActionMode actionMode;
     private IExpensesRepository expensesRepository;
 
-    public ExpensesRecyclerViewAdapter(AppCompatActivity context)
-    {
+    public ExpensesRecyclerViewAdapter(AppCompatActivity context) {
         this.activity = context;
         this.expensesRepository = SugarRepository.getInstance();
     }
@@ -56,8 +57,15 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
         @ColorInt final int color = typedValue.data;
         @ColorInt final int noColor = 0x00000000;
 
-        holder.tvTitle.setText(expense.getDescription());
-        holder.tvSubtitle.setText(String.valueOf(expense.getAmount()));
+        DateFormat dateFormat = new SimpleDateFormat("EEEE dd, MMMM");
+        String date = dateFormat.format(expense.getDate());
+        String amount = expense.getCurrency().getSymbol() + " " + String.valueOf(expense.getAmount());
+
+        holder.tvDesc.setText(expense.getDescription());
+        holder.tvAmount.setText(amount);
+        holder.tvDate.setText(date);
+        holder.tvType.setText(String.valueOf(expense.getType()));
+
         holder.itemView.setBackgroundColor(expense.getSelected() ? color : noColor);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,10 +73,9 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
                 if (getSelectedItemsCount() == 0) {
                     Intent intent = new Intent(activity, ExpenseActivity.class);
                     intent.putExtra(ExtraKeys.EXPENSE, expense);
-                    intent.putExtra(ExtraKeys.MODE_EXPENSE_ACTIVITY,RequestCodes.EDIT_EXPENSE);
+                    intent.putExtra(ExtraKeys.MODE_EXPENSE_ACTIVITY, RequestCodes.EDIT_EXPENSE);
                     activity.startActivity(intent);
-                }
-                else {
+                } else {
                     refreshModeSelection(holder, expense, color, noColor);
                 }
             }
@@ -93,7 +100,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
 
     private int getSelectedItemsCount() {
         int count = 0;
-        for (Expense expense:getItems()) {
+        for (Expense expense : getItems()) {
             if (expense.getSelected()) {
                 count++;
             }
@@ -102,7 +109,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
     }
 
     private boolean refreshModeSelection(@NonNull final ExpenseViewHolder holder, Expense expense,
-                                        @ColorInt final int color, @ColorInt final int noColor){
+                                         @ColorInt final int color, @ColorInt final int noColor) {
 
         expense.setSelected(!expense.getSelected());
         holder.itemView.setBackgroundColor(expense.getSelected() ? color : noColor);
@@ -122,8 +129,8 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
 
                 @Override
                 public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                    for (Expense e:getItems()) {
-                        if (e.getSelected()){
+                    for (Expense e : getItems()) {
+                        if (e.getSelected()) {
                             return true;
                         }
                     }
@@ -137,11 +144,10 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
                         case R.id.action_delete:
                             ArrayList<Expense> selectedExpenses = new ArrayList<>();
                             ArrayList<Expense> newExpensesList = new ArrayList<>();
-                            for (Expense expense:getItems()) {
+                            for (Expense expense : getItems()) {
                                 if (expense.getSelected()) {
                                     selectedExpenses.add(expense);
-                                }
-                                else {
+                                } else {
                                     newExpensesList.add(expense);
                                 }
                             }
@@ -154,7 +160,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
 
                         case R.id.action_send_tickets:
                             ArrayList<Expense> selExpenses = new ArrayList<>();
-                            for (Expense expense:getItems()) {
+                            for (Expense expense : getItems()) {
                                 if (expense.getSelected()) {
                                     selExpenses.add(expense);
                                 }
@@ -170,7 +176,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
 
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
-                    for (Expense expense:getItems()) {
+                    for (Expense expense : getItems()) {
                         expense.setSelected(false);
                     }
                     notifyDataSetChanged();
@@ -184,13 +190,17 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
     }
 
     protected static class ExpenseViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle;
-        TextView tvSubtitle;
+        TextView tvDesc;
+        TextView tvAmount;
+        TextView tvDate;
+        TextView tvType;
 
         public ExpenseViewHolder(View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tv_ticket_rv_title);
-            tvSubtitle = itemView.findViewById(R.id.tv_ticket_rv_subtitle);
+            tvDesc = itemView.findViewById(R.id.tv_ticket_rv_desc);
+            tvAmount = itemView.findViewById(R.id.tv_ticket_rv_amount);
+            tvDate = itemView.findViewById(R.id.tv_ticket_rv_date);
+            tvType = itemView.findViewById(R.id.tv_ticket_rv_type);
         }
     }
 
@@ -205,7 +215,7 @@ public class ExpensesRecyclerViewAdapter extends ArrayRvAdapter<Expense, Expense
 
         @Override
         protected Void doInBackground(Expense... expenses) {
-            for(Expense expense: expenses){
+            for (Expense expense : expenses) {
                 expensesRepository.deleteExpense(activity, expense);
             }
             return null;
