@@ -32,6 +32,7 @@
     <string name="send_surrender_button">Finalizar rendición</string>
     <string name="numberTrip_hint">Número de viaje</string>
     <string name="tiketsCount_hint">Cantidad de tickets</string>
+    <string name="surrender_save_ok">La Rendición se sincronizo exitosamente</string>
 
     <string name="dark_theme">Tema oscuro</string>
 

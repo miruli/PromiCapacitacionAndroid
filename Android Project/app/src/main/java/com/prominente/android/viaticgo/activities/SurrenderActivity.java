@@ -106,51 +106,6 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "itemPicker");
     }
 
-    private void showLoading() {
-        int mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-        final ContentLoadingProgressBar pbarSurrender = findViewById(R.id.pbarSurrender);
-        pbarSurrender.setAlpha(0f);
-        pbarSurrender.setVisibility(View.VISIBLE);
-        pbarSurrender.animate()
-                .alpha(1f)
-                .setDuration(mShortAnimationDuration)
-                .setListener(null);
-        final LinearLayoutCompat linearLayoutInputs = findViewById(R.id.linearLayoutInputs);
-        linearLayoutInputs.animate()
-                .alpha(0f)
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        linearLayoutInputs.setVisibility(View.GONE);
-                    }
-                });
-    }
-
-    private void hideLoading() {
-        int mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-
-        final LinearLayoutCompat linearLayoutInputs = findViewById(R.id.linearLayoutInputs);
-        linearLayoutInputs.setVisibility(View.VISIBLE);
-        linearLayoutInputs.setAlpha(0f);
-        linearLayoutInputs.animate()
-                .alpha(1f)
-                .setDuration(mShortAnimationDuration)
-                .setListener(null);
-
-        final ContentLoadingProgressBar pbarSurrender = findViewById(R.id.pbarSurrender);
-        pbarSurrender.animate()
-                .alpha(0f)
-                .setDuration(mShortAnimationDuration)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        pbarSurrender.setVisibility(View.GONE);
-                    }
-                });
-    }
-
     private class SendSurrenderTask extends AsyncTask<Surrender, Integer, Boolean> {
         public SendSurrenderTask() {
         }
@@ -158,7 +113,6 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showLoading();
         }
 
         @Override
@@ -169,13 +123,12 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
           if (result) {
-                Toast.makeText(SurrenderActivity.this, "La Rendición se sincronizo exitosamente ", Toast.LENGTH_LONG).show();
+                Toast.makeText(SurrenderActivity.this, R.string.surrender_save_ok, Toast.LENGTH_LONG).show();
                 finish();
             }
             else {
-                Toast.makeText(SurrenderActivity.this, "Se produjo en error en la sincronización, intente nuevamente ", Toast.LENGTH_LONG).show();
+                Toast.makeText(SurrenderActivity.this, R.string.generic_error, Toast.LENGTH_LONG).show();
             }
-            hideLoading();
         }
     }
 }

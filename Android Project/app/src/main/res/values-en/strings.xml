@@ -32,6 +32,7 @@
     <string name="send_surrender_button">Send surrender</string>
     <string name="numberTrip_hint">Trip number</string>
     <string name="tiketsCount_hint">Tickets count</string>
+    <string name="surrender_save_ok">The surrender was saved</string>
 
     <string name="dark_theme">Dark theme</string>
 
