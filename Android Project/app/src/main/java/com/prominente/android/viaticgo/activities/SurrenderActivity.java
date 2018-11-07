@@ -12,6 +12,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -72,15 +73,6 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
             }
         });
 
-        final AppCompatButton btnSendSurrender = findViewById(R.id.btnSendSurrender);
-        btnSendSurrender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendSurrenderTask = new SendSurrenderTask();
-                surrender.setTrip(tripAdapter.getSelectedItem());
-                sendSurrenderTask.execute(surrender);
-            }
-        });
     }
 
     @Override
@@ -89,8 +81,23 @@ public class SurrenderActivity extends LightDarkAppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.action_save:
+                save();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_surrender_menu, menu);
+        return true;
+    }
+
+    private void save(){
+        sendSurrenderTask = new SendSurrenderTask();
+        surrender.setTrip(tripAdapter.getSelectedItem());
+        sendSurrenderTask.execute(surrender);
     }
 
     public void showItemPickerDialog(final View v, final ArrayIpAdapter adapter, final AppCompatEditText appCompatEditText) {
